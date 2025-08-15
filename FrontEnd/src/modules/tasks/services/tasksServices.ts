@@ -14,3 +14,16 @@ export const PostTask = async (task: TaskData) => {
 
   return data;
 };
+
+export const UpdateTask = async (id: string, task: TaskData) => {
+  const { data } = await apiClient.put(`${ENDPOINTS.TASKS}/${id}/`, task);
+
+  return data;
+};
+
+export const DeleteTask = async (id: string) => {
+  const response = await apiClient.delete(`${ENDPOINTS.TASKS}/${id}/`);
+
+  if (response.status === 204) return true;
+  throw new Error("Failed to delete the task");
+};

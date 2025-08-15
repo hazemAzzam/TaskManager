@@ -1,9 +1,11 @@
+import type { UserOption } from "../../../common/types/UserOption";
+
 export type TaskType = {
-  id: number;
+  id: string;
   title: string;
   description: string;
   status: "pending" | "in-progress" | "completed";
   priority: "low" | "medium" | "high" | "urgent";
-  assignee: number;
+  assignee: UserOption;
   dueDate: string;
 };

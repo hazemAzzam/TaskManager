@@ -1,5 +1,5 @@
 import { useOpenModalStore } from "../stores/openModalStore";
-import { usePostTask } from "../hooks/tasksHooks";
+import { usePostTask, useUpdateTask } from "../hooks/tasksHooks";
 import { useForm } from "react-hook-form";
 import { TaskFormSchema, type TaskData } from "../schemas/TaskFormSchema";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -7,6 +7,7 @@ import Input from "../../../common/ui/Input";
 import Select from "../../../common/ui/Select";
 import { fetchUsersAutocompleteService } from "../../user/services/fetchUsersAutocompleteService";
 import AutoComplete from "../../../common/ui/AutoComplete";
+import { handleServerErrors } from "../../../common/utils/handleServerErrors";
 
 export default function TaskForm() {
   const { closeModal, mode, task } = useOpenModalStore();
@@ -21,23 +22,31 @@ export default function TaskForm() {
     defaultValues: task ?? {},
   });
   const { mutate: postTask, isError: isTaskError, error: taskError } = usePostTask();
+  const { mutate: updateTask } = useUpdateTask();
 
   const onSubmit = (data: TaskData) => {
-    postTask(data, {
-      onError: (error: any) => {
-        console.error(error);
-        if (error.response?.data) {
-          console.error(error.response?.data);
-          const serverErrors = error.response.data;
-          Object.entries(serverErrors).forEach(([field, messages]) => {
-            setError(field as keyof TaskData, {
-              type: "server",
-              message: (messages as string[])[0],
-            });
-          });
+    if (mode === "createMode")
+      postTask(data, {
+        onError: (error: any) => {
+          handleServerErrors<TaskData>(error, setError);
+        },
+        onSuccess: () => {
+          closeModal();
+        },
+      });
+    else if (mode === "editMode" && task) {
+      updateTask(
+        { id: task.id, task: data },
+        {
+          onError: (error: any) => {
+            handleServerErrors<TaskData>(error, setError);
+          },
+          onSuccess: () => {
+            closeModal();
+          },
         }
-      },
-    });
+      );
+    }
   };
 
   return (
@@ -47,9 +56,9 @@ export default function TaskForm() {
 
         <form onSubmit={handleSubmit(onSubmit)}>
           <div className="space-y-4">
-            <Input label="Title" name="title" register={register} error={errors.title?.message} />
+            <Input label="Title" name="title" disabled={mode === "viewMode"} register={register} error={errors.title?.message} />
 
-            <Input type="textarea" label="Description" name="description" register={register} error={errors.description?.message} />
+            <Input type="textarea" label="Description" disabled={mode === "viewMode"} name="description" register={register} error={errors.description?.message} />
 
             <div className="grid grid-cols-2 gap-4">
               <Select
@@ -57,6 +66,7 @@ export default function TaskForm() {
                 name="status"
                 register={register}
                 error={errors.status?.message}
+                disabled={mode === "viewMode"}
                 options={[
                   { label: "Pending", value: "pending" },
                   { label: "In Progress", value: "in-progress" },
@@ -79,9 +89,9 @@ export default function TaskForm() {
               />
             </div>
 
-            <Input type="date" label="Due Date" name="dueDate" register={register} error={errors.dueDate?.message} />
+            <Input type="date" label="Due Date" name="dueDate" disabled={mode === "viewMode"} register={register} error={errors.dueDate?.message} />
 
-            <AutoComplete name="assignee" label="Assignee" loadOptions={fetchUsersAutocompleteService} defaultOptions={true} control={control} error={errors.assignee?.message} />
+            <AutoComplete name="assignee" label="Assignee" isDisabled={mode === "viewMode"} loadOptions={fetchUsersAutocompleteService} defaultOptions={true} control={control} error={errors.assignee?.message} />
           </div>
 
           <div className="flex space-x-3 mt-6">

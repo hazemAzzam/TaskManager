@@ -7,9 +7,13 @@ class UserSerializer(serializers.ModelSerializer):
         fields = ['id', 'username', 'email', 'full_name', 'role']
 
 class UserAutocompleteSerializer(serializers.ModelSerializer):
-    label = serializers.CharField(source='full_name')
+    label = serializers.SerializerMethodField()
     value = serializers.IntegerField(source='id')
 
     class Meta:
         model = UserModel
         fields = ['label', 'value']
+
+    def get_label(self, obj):
+        return str(obj)
+
