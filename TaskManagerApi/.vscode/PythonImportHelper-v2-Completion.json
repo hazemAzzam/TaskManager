@@ -1,0 +1,476 @@
+[
+    {
+        "label": "migrations",
+        "importPath": "django.db",
+        "description": "django.db",
+        "isExtraImport": true,
+        "detail": "django.db",
+        "documentation": {}
+    },
+    {
+        "label": "models",
+        "importPath": "django.db",
+        "description": "django.db",
+        "isExtraImport": true,
+        "detail": "django.db",
+        "documentation": {}
+    },
+    {
+        "label": "models",
+        "importPath": "django.db",
+        "description": "django.db",
+        "isExtraImport": true,
+        "detail": "django.db",
+        "documentation": {}
+    },
+    {
+        "label": "StatusChoices",
+        "importPath": "database.constants",
+        "description": "database.constants",
+        "isExtraImport": true,
+        "detail": "database.constants",
+        "documentation": {}
+    },
+    {
+        "label": "PriorityChoices",
+        "importPath": "database.constants",
+        "description": "database.constants",
+        "isExtraImport": true,
+        "detail": "database.constants",
+        "documentation": {}
+    },
+    {
+        "label": "serializers",
+        "importPath": "rest_framework",
+        "description": "rest_framework",
+        "isExtraImport": true,
+        "detail": "rest_framework",
+        "documentation": {}
+    },
+    {
+        "label": "viewsets",
+        "importPath": "rest_framework",
+        "description": "rest_framework",
+        "isExtraImport": true,
+        "detail": "rest_framework",
+        "documentation": {}
+    },
+    {
+        "label": "TaskModel",
+        "importPath": "database.models",
+        "description": "database.models",
+        "isExtraImport": true,
+        "detail": "database.models",
+        "documentation": {}
+    },
+    {
+        "label": "TaskModel",
+        "importPath": "database.models",
+        "description": "database.models",
+        "isExtraImport": true,
+        "detail": "database.models",
+        "documentation": {}
+    },
+    {
+        "label": "TaskModelSerializer",
+        "importPath": "database.serializers",
+        "description": "database.serializers",
+        "isExtraImport": true,
+        "detail": "database.serializers",
+        "documentation": {}
+    },
+    {
+        "label": "AppConfig",
+        "importPath": "django.apps",
+        "description": "django.apps",
+        "isExtraImport": true,
+        "detail": "django.apps",
+        "documentation": {}
+    },
+    {
+        "label": "path",
+        "importPath": "django.urls",
+        "description": "django.urls",
+        "isExtraImport": true,
+        "detail": "django.urls",
+        "documentation": {}
+    },
+    {
+        "label": "include",
+        "importPath": "django.urls",
+        "description": "django.urls",
+        "isExtraImport": true,
+        "detail": "django.urls",
+        "documentation": {}
+    },
+    {
+        "label": "path",
+        "importPath": "django.urls",
+        "description": "django.urls",
+        "isExtraImport": true,
+        "detail": "django.urls",
+        "documentation": {}
+    },
+    {
+        "label": "include",
+        "importPath": "django.urls",
+        "description": "django.urls",
+        "isExtraImport": true,
+        "detail": "django.urls",
+        "documentation": {}
+    },
+    {
+        "label": "DefaultRouter",
+        "importPath": "rest_framework.routers",
+        "description": "rest_framework.routers",
+        "isExtraImport": true,
+        "detail": "rest_framework.routers",
+        "documentation": {}
+    },
+    {
+        "label": "TaskModelViewSet",
+        "importPath": "database.views",
+        "description": "database.views",
+        "isExtraImport": true,
+        "detail": "database.views",
+        "documentation": {}
+    },
+    {
+        "label": "os",
+        "kind": 6,
+        "isExtraImport": true,
+        "importPath": "os",
+        "description": "os",
+        "detail": "os",
+        "documentation": {}
+    },
+    {
+        "label": "get_asgi_application",
+        "importPath": "django.core.asgi",
+        "description": "django.core.asgi",
+        "isExtraImport": true,
+        "detail": "django.core.asgi",
+        "documentation": {}
+    },
+    {
+        "label": "Path",
+        "importPath": "pathlib",
+        "description": "pathlib",
+        "isExtraImport": true,
+        "detail": "pathlib",
+        "documentation": {}
+    },
+    {
+        "label": "admin",
+        "importPath": "django.contrib",
+        "description": "django.contrib",
+        "isExtraImport": true,
+        "detail": "django.contrib",
+        "documentation": {}
+    },
+    {
+        "label": "get_wsgi_application",
+        "importPath": "django.core.wsgi",
+        "description": "django.core.wsgi",
+        "isExtraImport": true,
+        "detail": "django.core.wsgi",
+        "documentation": {}
+    },
+    {
+        "label": "sys",
+        "kind": 6,
+        "isExtraImport": true,
+        "importPath": "sys",
+        "description": "sys",
+        "detail": "sys",
+        "documentation": {}
+    },
+    {
+        "label": "Migration",
+        "kind": 6,
+        "importPath": "database.migrations.0001_initial",
+        "description": "database.migrations.0001_initial",
+        "peekOfCode": "class Migration(migrations.Migration):\n    initial = True\n    dependencies = [\n    ]\n    operations = [\n        migrations.CreateModel(\n            name='TaskModel',\n            fields=[\n                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),\n                ('title', models.CharField(max_length=255)),",
+        "detail": "database.migrations.0001_initial",
+        "documentation": {}
+    },
+    {
+        "label": "TaskModel",
+        "kind": 6,
+        "importPath": "database.models.TaskModel",
+        "description": "database.models.TaskModel",
+        "peekOfCode": "class TaskModel(models.Model):\n    title = models.CharField(max_length=255)\n    description = models.TextField()\n    status = models.CharField(max_length=255, choices=StatusChoices, default=\"pending\")\n    priority = models.CharField(max_length=255, choices=PriorityChoices, default=\"low\")\n    due_date = models.DateField()\n    assignee = models.CharField(max_length=255)",
+        "detail": "database.models.TaskModel",
+        "documentation": {}
+    },
+    {
+        "label": "TaskModelSerializer",
+        "kind": 6,
+        "importPath": "database.serializers.TaskSerializer",
+        "description": "database.serializers.TaskSerializer",
+        "peekOfCode": "class TaskModelSerializer(serializers.ModelSerializer):\n    class Meta:\n        model = TaskModel\n        fields = '__all__'",
+        "detail": "database.serializers.TaskSerializer",
+        "documentation": {}
+    },
+    {
+        "label": "TaskModelViewSet",
+        "kind": 6,
+        "importPath": "database.views.TaskView",
+        "description": "database.views.TaskView",
+        "peekOfCode": "class TaskModelViewSet(viewsets.ModelViewSet):\n    queryset = TaskModel.objects.all()\n    serializer_class = TaskModelSerializer",
+        "detail": "database.views.TaskView",
+        "documentation": {}
+    },
+    {
+        "label": "DatabaseConfig",
+        "kind": 6,
+        "importPath": "database.apps",
+        "description": "database.apps",
+        "peekOfCode": "class DatabaseConfig(AppConfig):\n    default_auto_field = 'django.db.models.BigAutoField'\n    name = 'database'",
+        "detail": "database.apps",
+        "documentation": {}
+    },
+    {
+        "label": "StatusChoices",
+        "kind": 5,
+        "importPath": "database.constants",
+        "description": "database.constants",
+        "peekOfCode": "StatusChoices = [\n    (\"pending\", \"Pending\"),\n    (\"in-progress\", \"In Progress\"),\n    (\"completed\", \"Completed\")\n]\nPriorityChoices = [\n    (\"low\", \"Low\"),\n    (\"medium\", \"Medium\"),\n    (\"high\", \"High\"),\n    (\"urgent\", \"Urgent\")",
+        "detail": "database.constants",
+        "documentation": {}
+    },
+    {
+        "label": "PriorityChoices",
+        "kind": 5,
+        "importPath": "database.constants",
+        "description": "database.constants",
+        "peekOfCode": "PriorityChoices = [\n    (\"low\", \"Low\"),\n    (\"medium\", \"Medium\"),\n    (\"high\", \"High\"),\n    (\"urgent\", \"Urgent\")\n]",
+        "detail": "database.constants",
+        "documentation": {}
+    },
+    {
+        "label": "router",
+        "kind": 5,
+        "importPath": "database.urls",
+        "description": "database.urls",
+        "peekOfCode": "router = DefaultRouter()\nrouter.register(r'tasks', TaskModelViewSet)\nurlpatterns = [\n    path('api/', include(router.urls)),\n]",
+        "detail": "database.urls",
+        "documentation": {}
+    },
+    {
+        "label": "urlpatterns",
+        "kind": 5,
+        "importPath": "database.urls",
+        "description": "database.urls",
+        "peekOfCode": "urlpatterns = [\n    path('api/', include(router.urls)),\n]",
+        "detail": "database.urls",
+        "documentation": {}
+    },
+    {
+        "label": "application",
+        "kind": 5,
+        "importPath": "TaskManagerApi.asgi",
+        "description": "TaskManagerApi.asgi",
+        "peekOfCode": "application = get_asgi_application()",
+        "detail": "TaskManagerApi.asgi",
+        "documentation": {}
+    },
+    {
+        "label": "BASE_DIR",
+        "kind": 5,
+        "importPath": "TaskManagerApi.settings",
+        "description": "TaskManagerApi.settings",
+        "peekOfCode": "BASE_DIR = Path(__file__).resolve().parent.parent\n# Quick-start development settings - unsuitable for production\n# See https://docs.djangoproject.com/en/5.1/howto/deployment/checklist/\n# SECURITY WARNING: keep the secret key used in production secret!\nSECRET_KEY = 'django-insecure-gudc4!@si@y(pfpl0ytsp_z16d@(zr91xojz+t#$%q6q8vi!%z'\n# SECURITY WARNING: don't run with debug turned on in production!\nDEBUG = True\nALLOWED_HOSTS=['*']\nCORS_ORIGIN_ALLOW_ALL = True\n# Application definition",
+        "detail": "TaskManagerApi.settings",
+        "documentation": {}
+    },
+    {
+        "label": "SECRET_KEY",
+        "kind": 5,
+        "importPath": "TaskManagerApi.settings",
+        "description": "TaskManagerApi.settings",
+        "peekOfCode": "SECRET_KEY = 'django-insecure-gudc4!@si@y(pfpl0ytsp_z16d@(zr91xojz+t#$%q6q8vi!%z'\n# SECURITY WARNING: don't run with debug turned on in production!\nDEBUG = True\nALLOWED_HOSTS=['*']\nCORS_ORIGIN_ALLOW_ALL = True\n# Application definition\nINSTALLED_APPS = [\n    'django.contrib.admin',\n    'django.contrib.auth',\n    'django.contrib.contenttypes',",
+        "detail": "TaskManagerApi.settings",
+        "documentation": {}
+    },
+    {
+        "label": "DEBUG",
+        "kind": 5,
+        "importPath": "TaskManagerApi.settings",
+        "description": "TaskManagerApi.settings",
+        "peekOfCode": "DEBUG = True\nALLOWED_HOSTS=['*']\nCORS_ORIGIN_ALLOW_ALL = True\n# Application definition\nINSTALLED_APPS = [\n    'django.contrib.admin',\n    'django.contrib.auth',\n    'django.contrib.contenttypes',\n    'django.contrib.sessions',\n    'django.contrib.messages',",
+        "detail": "TaskManagerApi.settings",
+        "documentation": {}
+    },
+    {
+        "label": "CORS_ORIGIN_ALLOW_ALL",
+        "kind": 5,
+        "importPath": "TaskManagerApi.settings",
+        "description": "TaskManagerApi.settings",
+        "peekOfCode": "CORS_ORIGIN_ALLOW_ALL = True\n# Application definition\nINSTALLED_APPS = [\n    'django.contrib.admin',\n    'django.contrib.auth',\n    'django.contrib.contenttypes',\n    'django.contrib.sessions',\n    'django.contrib.messages',\n    'django.contrib.staticfiles',\n    \"corsheaders\",",
+        "detail": "TaskManagerApi.settings",
+        "documentation": {}
+    },
+    {
+        "label": "INSTALLED_APPS",
+        "kind": 5,
+        "importPath": "TaskManagerApi.settings",
+        "description": "TaskManagerApi.settings",
+        "peekOfCode": "INSTALLED_APPS = [\n    'django.contrib.admin',\n    'django.contrib.auth',\n    'django.contrib.contenttypes',\n    'django.contrib.sessions',\n    'django.contrib.messages',\n    'django.contrib.staticfiles',\n    \"corsheaders\",\n    'database',\n    'rest_framework',",
+        "detail": "TaskManagerApi.settings",
+        "documentation": {}
+    },
+    {
+        "label": "MIDDLEWARE",
+        "kind": 5,
+        "importPath": "TaskManagerApi.settings",
+        "description": "TaskManagerApi.settings",
+        "peekOfCode": "MIDDLEWARE = [\n    \"corsheaders.middleware.CorsMiddleware\",  # must be first\n    \"django.middleware.security.SecurityMiddleware\",\n    \"django.contrib.sessions.middleware.SessionMiddleware\",\n    \"django.middleware.common.CommonMiddleware\",\n    \"django.middleware.csrf.CsrfViewMiddleware\",\n    \"django.contrib.auth.middleware.AuthenticationMiddleware\",\n    \"django.contrib.messages.middleware.MessageMiddleware\",\n    \"django.middleware.clickjacking.XFrameOptionsMiddleware\",\n]",
+        "detail": "TaskManagerApi.settings",
+        "documentation": {}
+    },
+    {
+        "label": "SESSION_COOKIE_SECURE",
+        "kind": 5,
+        "importPath": "TaskManagerApi.settings",
+        "description": "TaskManagerApi.settings",
+        "peekOfCode": "SESSION_COOKIE_SECURE = False\nCSRF_COOKIE_SECURE = False\nROOT_URLCONF = 'TaskManagerApi.urls'\nTEMPLATES = [\n    {\n        'BACKEND': 'django.template.backends.django.DjangoTemplates',\n        'DIRS': [],\n        'APP_DIRS': True,\n        'OPTIONS': {\n            'context_processors': [",
+        "detail": "TaskManagerApi.settings",
+        "documentation": {}
+    },
+    {
+        "label": "CSRF_COOKIE_SECURE",
+        "kind": 5,
+        "importPath": "TaskManagerApi.settings",
+        "description": "TaskManagerApi.settings",
+        "peekOfCode": "CSRF_COOKIE_SECURE = False\nROOT_URLCONF = 'TaskManagerApi.urls'\nTEMPLATES = [\n    {\n        'BACKEND': 'django.template.backends.django.DjangoTemplates',\n        'DIRS': [],\n        'APP_DIRS': True,\n        'OPTIONS': {\n            'context_processors': [\n                'django.template.context_processors.debug',",
+        "detail": "TaskManagerApi.settings",
+        "documentation": {}
+    },
+    {
+        "label": "ROOT_URLCONF",
+        "kind": 5,
+        "importPath": "TaskManagerApi.settings",
+        "description": "TaskManagerApi.settings",
+        "peekOfCode": "ROOT_URLCONF = 'TaskManagerApi.urls'\nTEMPLATES = [\n    {\n        'BACKEND': 'django.template.backends.django.DjangoTemplates',\n        'DIRS': [],\n        'APP_DIRS': True,\n        'OPTIONS': {\n            'context_processors': [\n                'django.template.context_processors.debug',\n                'django.template.context_processors.request',",
+        "detail": "TaskManagerApi.settings",
+        "documentation": {}
+    },
+    {
+        "label": "TEMPLATES",
+        "kind": 5,
+        "importPath": "TaskManagerApi.settings",
+        "description": "TaskManagerApi.settings",
+        "peekOfCode": "TEMPLATES = [\n    {\n        'BACKEND': 'django.template.backends.django.DjangoTemplates',\n        'DIRS': [],\n        'APP_DIRS': True,\n        'OPTIONS': {\n            'context_processors': [\n                'django.template.context_processors.debug',\n                'django.template.context_processors.request',\n                'django.contrib.auth.context_processors.auth',",
+        "detail": "TaskManagerApi.settings",
+        "documentation": {}
+    },
+    {
+        "label": "WSGI_APPLICATION",
+        "kind": 5,
+        "importPath": "TaskManagerApi.settings",
+        "description": "TaskManagerApi.settings",
+        "peekOfCode": "WSGI_APPLICATION = 'TaskManagerApi.wsgi.application'\n# Database\n# https://docs.djangoproject.com/en/5.1/ref/settings/#databases\nDATABASES = {\n    'default': {\n        'ENGINE': 'django.db.backends.sqlite3',\n        'NAME': BASE_DIR / 'db.sqlite3',\n    }\n}\n# Password validation",
+        "detail": "TaskManagerApi.settings",
+        "documentation": {}
+    },
+    {
+        "label": "DATABASES",
+        "kind": 5,
+        "importPath": "TaskManagerApi.settings",
+        "description": "TaskManagerApi.settings",
+        "peekOfCode": "DATABASES = {\n    'default': {\n        'ENGINE': 'django.db.backends.sqlite3',\n        'NAME': BASE_DIR / 'db.sqlite3',\n    }\n}\n# Password validation\n# https://docs.djangoproject.com/en/5.1/ref/settings/#auth-password-validators\nAUTH_PASSWORD_VALIDATORS = [\n    {",
+        "detail": "TaskManagerApi.settings",
+        "documentation": {}
+    },
+    {
+        "label": "AUTH_PASSWORD_VALIDATORS",
+        "kind": 5,
+        "importPath": "TaskManagerApi.settings",
+        "description": "TaskManagerApi.settings",
+        "peekOfCode": "AUTH_PASSWORD_VALIDATORS = [\n    {\n        'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator',\n    },\n    {\n        'NAME': 'django.contrib.auth.password_validation.MinimumLengthValidator',\n    },\n    {\n        'NAME': 'django.contrib.auth.password_validation.CommonPasswordValidator',\n    },",
+        "detail": "TaskManagerApi.settings",
+        "documentation": {}
+    },
+    {
+        "label": "LANGUAGE_CODE",
+        "kind": 5,
+        "importPath": "TaskManagerApi.settings",
+        "description": "TaskManagerApi.settings",
+        "peekOfCode": "LANGUAGE_CODE = 'en-us'\nTIME_ZONE = 'UTC'\nUSE_I18N = True\nUSE_TZ = True\n# Static files (CSS, JavaScript, Images)\n# https://docs.djangoproject.com/en/5.1/howto/static-files/\nSTATIC_URL = 'static/'\n# Default primary key field type\n# https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field\nDEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'",
+        "detail": "TaskManagerApi.settings",
+        "documentation": {}
+    },
+    {
+        "label": "TIME_ZONE",
+        "kind": 5,
+        "importPath": "TaskManagerApi.settings",
+        "description": "TaskManagerApi.settings",
+        "peekOfCode": "TIME_ZONE = 'UTC'\nUSE_I18N = True\nUSE_TZ = True\n# Static files (CSS, JavaScript, Images)\n# https://docs.djangoproject.com/en/5.1/howto/static-files/\nSTATIC_URL = 'static/'\n# Default primary key field type\n# https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field\nDEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'",
+        "detail": "TaskManagerApi.settings",
+        "documentation": {}
+    },
+    {
+        "label": "USE_I18N",
+        "kind": 5,
+        "importPath": "TaskManagerApi.settings",
+        "description": "TaskManagerApi.settings",
+        "peekOfCode": "USE_I18N = True\nUSE_TZ = True\n# Static files (CSS, JavaScript, Images)\n# https://docs.djangoproject.com/en/5.1/howto/static-files/\nSTATIC_URL = 'static/'\n# Default primary key field type\n# https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field\nDEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'",
+        "detail": "TaskManagerApi.settings",
+        "documentation": {}
+    },
+    {
+        "label": "USE_TZ",
+        "kind": 5,
+        "importPath": "TaskManagerApi.settings",
+        "description": "TaskManagerApi.settings",
+        "peekOfCode": "USE_TZ = True\n# Static files (CSS, JavaScript, Images)\n# https://docs.djangoproject.com/en/5.1/howto/static-files/\nSTATIC_URL = 'static/'\n# Default primary key field type\n# https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field\nDEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'",
+        "detail": "TaskManagerApi.settings",
+        "documentation": {}
+    },
+    {
+        "label": "STATIC_URL",
+        "kind": 5,
+        "importPath": "TaskManagerApi.settings",
+        "description": "TaskManagerApi.settings",
+        "peekOfCode": "STATIC_URL = 'static/'\n# Default primary key field type\n# https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field\nDEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'",
+        "detail": "TaskManagerApi.settings",
+        "documentation": {}
+    },
+    {
+        "label": "DEFAULT_AUTO_FIELD",
+        "kind": 5,
+        "importPath": "TaskManagerApi.settings",
+        "description": "TaskManagerApi.settings",
+        "peekOfCode": "DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'",
+        "detail": "TaskManagerApi.settings",
+        "documentation": {}
+    },
+    {
+        "label": "urlpatterns",
+        "kind": 5,
+        "importPath": "TaskManagerApi.urls",
+        "description": "TaskManagerApi.urls",
+        "peekOfCode": "urlpatterns = [\n    path('', include('database.urls')),\n    path('admin/', admin.site.urls),\n]",
+        "detail": "TaskManagerApi.urls",
+        "documentation": {}
+    },
+    {
+        "label": "application",
+        "kind": 5,
+        "importPath": "TaskManagerApi.wsgi",
+        "description": "TaskManagerApi.wsgi",
+        "peekOfCode": "application = get_wsgi_application()",
+        "detail": "TaskManagerApi.wsgi",
+        "documentation": {}
+    },
+    {
+        "label": "main",
+        "kind": 2,
+        "importPath": "manage",
+        "description": "manage",
+        "peekOfCode": "def main():\n    \"\"\"Run administrative tasks.\"\"\"\n    os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'TaskManagerApi.settings')\n    try:\n        from django.core.management import execute_from_command_line\n    except ImportError as exc:\n        raise ImportError(\n            \"Couldn't import Django. Are you sure it's installed and \"\n            \"available on your PYTHONPATH environment variable? Did you \"\n            \"forget to activate a virtual environment?\"",
+        "detail": "manage",
+        "documentation": {}
+    }
+]
