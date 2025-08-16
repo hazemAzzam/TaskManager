@@ -11,7 +11,7 @@ type ConfirmationButtonProps = {
   className?: string;
 };
 
-export const ConfirmationButton: React.FC<ConfirmationButtonProps> = ({ children, buttonLabel, confirmTitle, confirmMessage, confirmText, cancelText, onConfirm, className = "" }) => {
+export const ConfirmationButton: React.FC<ConfirmationButtonProps> = ({ children, confirmTitle, confirmMessage, confirmText, cancelText, onConfirm, className = "" }) => {
   const [isOpen, setIsOpen] = useState(false);
 
   const handleConfirm = () => {
@@ -41,7 +41,7 @@ type ConfirmationProps = {
   onCancel: () => void;
 };
 
-export default function Confirmation({ isOpen, title = "Are you sure?", message, confirmText = "Yes", cancelText = "Cancel", onConfirm, onCancel }: ConfirmationProps) {
+function Confirmation({ isOpen, title = "Are you sure?", message, confirmText = "Yes", cancelText = "Cancel", onConfirm, onCancel }: ConfirmationProps) {
   if (!isOpen) return null;
 
   return (

@@ -1,10 +1,9 @@
 import { useState } from "react";
-import type { TaskType } from "../types/TaskType";
 import { Plus, Edit2, Trash2, Search, ChevronLeft, ChevronRight, View, Eye } from "lucide-react";
 import { useOpenModalStore } from "../stores/openModalStore";
 import { useDeleteTask, useGetTasks } from "../hooks/tasksHooks";
-import Confirmation, { ConfirmationButton } from "../../../common/ui/confirmation";
-import { DeleteTask } from "../services/tasksServices";
+import { ConfirmationButton } from "../../../common/ui/ConfirmationButton";
+import Select from "../../../common/ui/Select";
 
 export default function TasksPage() {
   const { openModal } = useOpenModalStore();
@@ -37,26 +36,34 @@ export default function TasksPage() {
         </div>
 
         <div className="bg-white rounded-xl shadow-md p-6 mb-6">
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-4">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
             <div className="relative">
               <Search className="absolute left-3 top-3 text-gray-400" size={20} />
               <input type="text" placeholder="Search tasks..." value={searchTerm} onChange={(e) => setSearchTerm(e.target.value)} className="w-full pl-10 pr-4 py-2 border rounded-lg outline-0 focus:ring-2 focus:ring-blue-500 border-gray-400" />
             </div>
 
-            <select value={statusFilter} onChange={(e) => setStatusFilter(e.target.value)} className="px-4 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 border-gray-400">
-              <option value="all">All Status</option>
-              <option value="pending">Pending</option>
-              <option value="in-progress">In Progress</option>
-              <option value="completed">Completed</option>
-            </select>
+            <Select
+              name="status"
+              options={[
+                { label: "All Status", value: "all" },
+                { label: "Pending", value: "pending" },
+                { label: "In Progress", value: "in-progress" },
+                { label: "Completed", value: "completed" },
+              ]}
+              className="px-4 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 border-gray-400"
+            />
 
-            <select value={priorityFilter} onChange={(e) => setPriorityFilter(e.target.value)} className="px-4 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 border-gray-400">
-              <option value="all">All Priority</option>
-              <option value="low">Low</option>
-              <option value="medium">Medium</option>
-              <option value="high">High</option>
-              <option value="urgent">Urgent</option>
-            </select>
+            <Select
+              name="status"
+              options={[
+                { label: "All Priority", value: "all" },  
+                { label: "Low", value: "low" },
+                { label: "Medium", value: "medium" },
+                { label: "High", value: "high" },
+                { label: "Urgent", value: "urgent" },
+              ]}
+              className="px-4 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 border-gray-400 "
+            />
           </div>
         </div>
 
@@ -99,7 +106,7 @@ export default function TasksPage() {
                           <Edit2 size={16} />
                         </button>
 
-                        <ConfirmationButton buttonLabel="Delete" confirmTitle="Confirm Deletion" confirmMessage="Are you sure you want to delete this task? This cannot be undone." confirmText="Delete" cancelText="Cancel" onConfirm={() => DeleteTask(task.id)} className="text-red-600 hover:text-red-900">
+                        <ConfirmationButton buttonLabel="Delete" confirmTitle="Confirm Deletion" confirmMessage="Are you sure you want to delete this task? This cannot be undone." confirmText="Delete" cancelText="Cancel" onConfirm={() => deleteTask(task.id)} className="text-red-600 hover:text-red-900">
                           <Trash2 size={16} />
                         </ConfirmationButton>
                       </div>
