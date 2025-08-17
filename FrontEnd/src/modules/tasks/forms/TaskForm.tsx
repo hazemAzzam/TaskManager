@@ -5,7 +5,7 @@ import { TaskFormSchema, type TaskData } from "../schemas/TaskFormSchema";
 import { zodResolver } from "@hookform/resolvers/zod";
 import Input from "../../../common/ui/Input";
 import Select from "../../../common/ui/Select";
-import { fetchUsersAutocompleteService } from "../../user/services/fetchUsersAutocompleteService";
+import { fetchUsersAutocompleteService } from "../services/fetchUsersAutocompleteService";
 import AutoComplete from "../../../common/ui/AutoComplete";
 import { handleServerErrors } from "../../../common/utils/handleServerErrors";
 

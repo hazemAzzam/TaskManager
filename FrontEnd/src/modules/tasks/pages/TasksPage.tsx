@@ -4,6 +4,7 @@ import { useOpenModalStore } from "../stores/openModalStore";
 import { useDeleteTask, useGetTasks } from "../hooks/tasksHooks";
 import { ConfirmationButton } from "../../../common/ui/ConfirmationButton";
 import Select from "../../../common/ui/Select";
+import type { TasksWithPagentation } from "../types/TaskType";
 
 export default function TasksPage() {
   const { openModal } = useOpenModalStore();
@@ -12,13 +13,11 @@ export default function TasksPage() {
     // isLoading: isTasksLoading,
     isError: isTasksError,
     error: tasksError,
-  } = useGetTasks();
+  } = useGetTasks<TasksWithPagentation>();
 
   const { mutate: deleteTask } = useDeleteTask();
 
-  const [statusFilter, setStatusFilter] = useState("");
   const [searchTerm, setSearchTerm] = useState("");
-  const [priorityFilter, setPriorityFilter] = useState("");
 
   if (isTasksError) {
     return <>{tasksError.message}</>;
@@ -50,19 +49,17 @@ export default function TasksPage() {
                 { label: "In Progress", value: "in-progress" },
                 { label: "Completed", value: "completed" },
               ]}
-              className="px-4 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 border-gray-400"
             />
 
             <Select
               name="status"
               options={[
-                { label: "All Priority", value: "all" },  
+                { label: "All Priority", value: "all" },
                 { label: "Low", value: "low" },
                 { label: "Medium", value: "medium" },
                 { label: "High", value: "high" },
                 { label: "Urgent", value: "urgent" },
               ]}
-              className="px-4 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 border-gray-400 "
             />
           </div>
         </div>
@@ -81,7 +78,7 @@ export default function TasksPage() {
                 </tr>
               </thead>
               <tbody className="bg-white divide-y divide-gray-200">
-                {tasks?.map((task) => (
+                {tasks?.results?.map((task) => (
                   <tr key={task.id} className="hover:bg-gray-50">
                     <td className="px-6 py-4">
                       <div>

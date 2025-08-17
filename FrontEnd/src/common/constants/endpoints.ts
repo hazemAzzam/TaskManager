@@ -1,7 +1,7 @@
 export const ENDPOINTS = {
   TASKS: "/tasks",
-  USERS: {
-    default: "/users",
+  USERS: Object.assign(() => "/users", {
+    toString: () => "/users",
     AUTOCOMPLETE: "/users/autocomplete",
-  },
+  }),
 };

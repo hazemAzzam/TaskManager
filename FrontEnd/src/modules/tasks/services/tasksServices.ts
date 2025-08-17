@@ -1,11 +1,9 @@
 import apiClient from "../../../common/clients/apiClient";
 import { ENDPOINTS } from "../../../common/constants/endpoints";
 import type { TaskData } from "../schemas/TaskFormSchema";
-import type { TaskType } from "../types/TaskType";
 
-export const GetTasks = async (): Promise<TaskType[]> => {
-  const { data } = await apiClient.get<TaskType[]>(ENDPOINTS.TASKS);
-
+export const GetTasks = async <T>(): Promise<T> => {
+  const { data } = await apiClient.get<T>(ENDPOINTS.TASKS);
   return data;
 };
 

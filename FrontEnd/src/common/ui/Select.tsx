@@ -30,7 +30,7 @@ export default function Select({ label, name, options, register, onChange, value
       )}
 
       <select id={name} name={name} disabled={disabled} value={value} onChange={onChange} {...registerProps} className={`w-full px-3 py-2 border rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 ${error ? "border-red-500" : "border-gray-300"} ${disabled ? "bg-gray-100 cursor-not-allowed" : "bg-white"} ${className}`}>
-        <option value="">-- Select --</option>
+        {/* <option value="">-- Select --</option> */}
         {options.map((opt) => (
           <option key={opt.value} value={opt.value}>
             {opt.label}

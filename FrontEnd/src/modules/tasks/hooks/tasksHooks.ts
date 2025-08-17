@@ -1,12 +1,11 @@
-import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { useMutation, useQuery, useQueryClient, type UseQueryResult } from "@tanstack/react-query";
 import { DeleteTask, GetTasks, PostTask, UpdateTask } from "../services/tasksServices";
-import type { TaskType } from "../types/TaskType";
 import type { TaskData } from "../schemas/TaskFormSchema";
 
-export const useGetTasks = () => {
-  return useQuery<TaskType[]>({
+export const useGetTasks = <T>(): UseQueryResult<T> => {
+  return useQuery<T>({
     queryKey: ["tasks"],
-    queryFn: GetTasks,
+    queryFn: () => GetTasks<T>(),
   });
 };
 

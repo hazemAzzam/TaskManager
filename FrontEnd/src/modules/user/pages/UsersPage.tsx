@@ -1,19 +1,12 @@
 import type { TaskType } from "../../tasks/types/TaskType";
+import { useGetUsers } from "../hooks/UsersHooks";
 import { useUserModelStore } from "../stores/userModelStore";
-import type { UserType } from "../types/UserType";
+import type { UsersWithPagination, UserType } from "../types/UserType";
 import { Plus, SquarePen, User } from "lucide-react";
 
 export default function UsersPage() {
   const { openUserModal } = useUserModelStore();
-  const users = [
-    {
-      id: "1",
-      username: "hazem",
-      name: "hazem",
-      role: "admin",
-      email: "hazemmohamed@gmail.com",
-    },
-  ] as UserType[];
+  const { data: users } = useGetUsers<UsersWithPagination>();
   const tasks = [] as TaskType[];
 
   return (
@@ -28,9 +21,9 @@ export default function UsersPage() {
 
       <div className="bg-white rounded-xl shadow-md p-6">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {users.map((user) => {
-            const userTasks = tasks.filter((task) => task.assignee === user.username);
-            const completedTasks = userTasks.filter((task) => task.status === "completed").length;
+          {users?.results?.map((user) => {
+            // const userTasks = tasks.filter((task) => task.assignee === user.username);
+            // const completedTasks = userTasks.filter((task) => task.status === "completed").length;
             return (
               <div key={user.id} className="group bg-white overflow-hidden hover:bg-blue-100 p-6 rounded-xl border border-gray-200 transition-colors duration-300 ease-in-out">
                 <div className="relative  flex items-center justify-between space-x-4 mb-4">
@@ -39,7 +32,7 @@ export default function UsersPage() {
                       <User className="text-white" size={24} />
                     </div>
                     <div>
-                      <h3 className="font-semibold text-gray-800">{user.name}</h3>
+                      <h3 className="font-semibold text-gray-800">{user.full_name}</h3>
                       <p className="text-sm text-gray-600">@{user.username}</p>
                     </div>
                   </div>
@@ -59,18 +52,16 @@ export default function UsersPage() {
                   </div>
                   <div className="flex justify-between">
                     <span className="text-sm text-gray-600">Tasks:</span>
-                    <span className="text-sm font-medium">{userTasks.length}</span>
+                    <span className="text-sm font-medium">0</span>
                   </div>
                   <div className="flex justify-between">
                     <span className="text-sm text-gray-600">Completed:</span>
-                    <span className="text-sm font-medium text-green-600">{completedTasks}</span>
+                    <span className="text-sm font-medium text-green-600">0</span>
                   </div>
                 </div>
 
-                <div className="mt-4 bg-gray-200 rounded-full h-2">
-                  <div className="bg-green-500 h-2 rounded-full transition-all duration-300" style={{ width: `${userTasks.length > 0 ? (completedTasks / userTasks.length) * 100 : 0}%` }}></div>
-                </div>
-                <p className="text-xs text-gray-500 mt-1">{userTasks.length > 0 ? Math.round((completedTasks / userTasks.length) * 100) : 0}% completion rate</p>
+                <div className="mt-4 bg-gray-200 rounded-full h-2">{/* <div className="bg-green-500 h-2 rounded-full transition-all duration-300" style={{ width: `${userTasks.length > 0 ? (completedTasks / userTasks.length) * 100 : 0}%` }}></div> */}</div>
+                {/* <p className="text-xs text-gray-500 mt-1">{userTasks.length > 0 ? Math.round((completedTasks / userTasks.length) * 100) : 0}% completion rate</p> */}
               </div>
             );
           })}

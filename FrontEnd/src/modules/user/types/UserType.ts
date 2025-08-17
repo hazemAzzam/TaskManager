@@ -6,3 +6,9 @@ export type UserType = {
   email: string;
 };
 
+export type UsersWithPagination = {
+  count: number;
+  next?: string;
+  previous?: string;
+  results: UserType[];
+};

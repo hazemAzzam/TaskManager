@@ -9,3 +9,10 @@ export type TaskType = {
   assignee: UserOption;
   dueDate: string;
 };
+
+export type TasksWithPagentation = {
+  count: number;
+  next?: string;
+  previous?: string;
+  results: TaskType[];
+};
