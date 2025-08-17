@@ -1,13 +1,11 @@
-import type { TaskType } from "../../tasks/types/TaskType";
 import { useGetUsers } from "../hooks/UsersHooks";
 import { useUserModelStore } from "../stores/userModelStore";
-import type { UsersWithPagination, UserType } from "../types/UserType";
-import { Plus, SquarePen, User } from "lucide-react";
+import type { UsersWithPagination } from "../types/UserType";
+import { SquarePen, User } from "lucide-react";
 
 export default function UsersPage() {
   const { openUserModal } = useUserModelStore();
   const { data: users } = useGetUsers<UsersWithPagination>();
-  const tasks = [] as TaskType[];
 
   return (
     <div className="p-6">
