@@ -1,4 +1,4 @@
-import { useOpenModalStore } from "../stores/openModalStore";
+import { useTaskModalStore } from "../stores/openModalStore";
 import { usePostTask, useUpdateTask } from "../hooks/tasksHooks";
 import { useForm } from "react-hook-form";
 import { TaskFormSchema, type TaskData } from "../schemas/TaskFormSchema";
@@ -10,7 +10,7 @@ import AutoComplete from "../../../common/ui/AutoComplete";
 import { handleServerErrors } from "../../../common/utils/handleServerErrors";
 
 export default function TaskForm() {
-  const { closeModal, mode, task } = useOpenModalStore();
+  const { closeModal, mode, task } = useTaskModalStore();
   const {
     control,
     register,
@@ -21,7 +21,11 @@ export default function TaskForm() {
     resolver: zodResolver(TaskFormSchema),
     defaultValues: task ?? {},
   });
-  const { mutate: postTask, isError: isTaskError, error: taskError } = usePostTask();
+  const {
+    mutate: postTask,
+    isError: isTaskError,
+    error: taskError,
+  } = usePostTask();
   const { mutate: updateTask } = useUpdateTask();
 
   const onSubmit = (data: TaskData) => {
@@ -52,13 +56,28 @@ export default function TaskForm() {
   return (
     <div className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center p-4 z-50">
       <div className="bg-white rounded-xl p-6 w-full max-w-md">
-        <h2 className="text-xl font-bold mb-4">{mode === "editMode" ? "Edit Task" : "Create New Task"}</h2>
+        <h2 className="text-xl font-bold mb-4">
+          {mode === "editMode" ? "Edit Task" : "Create New Task"}
+        </h2>
 
         <form onSubmit={handleSubmit(onSubmit)}>
           <div className="space-y-4">
-            <Input label="Title" name="title" disabled={mode === "viewMode"} register={register} error={errors.title?.message} />
+            <Input
+              label="Title"
+              name="title"
+              disabled={mode === "viewMode"}
+              register={register}
+              error={errors.title?.message}
+            />
 
-            <Input type="textarea" label="Description" disabled={mode === "viewMode"} name="description" register={register} error={errors.description?.message} />
+            <Input
+              type="textarea"
+              label="Description"
+              disabled={mode === "viewMode"}
+              name="description"
+              register={register}
+              error={errors.description?.message}
+            />
 
             <div className="grid grid-cols-2 gap-4">
               <Select
@@ -89,14 +108,32 @@ export default function TaskForm() {
               />
             </div>
 
-            <Input type="date" label="Due Date" name="dueDate" disabled={mode === "viewMode"} register={register} error={errors.dueDate?.message} />
+            <Input
+              type="date"
+              label="Due Date"
+              name="dueDate"
+              disabled={mode === "viewMode"}
+              register={register}
+              error={errors.dueDate?.message}
+            />
 
-            <AutoComplete name="assignee" label="Assignee" isDisabled={mode === "viewMode"} loadOptions={fetchUsersAutocompleteService} defaultOptions={true} control={control} error={errors.assignee?.message} />
+            <AutoComplete
+              name="assignee"
+              label="Assignee"
+              isDisabled={mode === "viewMode"}
+              loadOptions={fetchUsersAutocompleteService}
+              defaultOptions={true}
+              control={control}
+              error={errors.assignee?.message}
+            />
           </div>
 
           <div className="flex space-x-3 mt-6">
             {mode != "viewMode" && (
-              <button type="submit" className="flex-1 bg-blue-600 text-white py-2 rounded-md hover:bg-blue-700">
+              <button
+                type="submit"
+                className="flex-1 bg-blue-600 text-white py-2 rounded-md hover:bg-blue-700"
+              >
                 {mode === "editMode" ? "Update" : "Create"}
               </button>
             )}
@@ -109,7 +146,9 @@ export default function TaskForm() {
               Cancel
             </button>
           </div>
-          {isTaskError && <p className="text-red-500 py-3">{taskError.message}</p>}
+          {isTaskError && (
+            <p className="text-red-500 py-3">{taskError.message}</p>
+          )}
         </form>
       </div>
     </div>
