@@ -1,9 +1,9 @@
 import { useMutation } from "@tanstack/react-query";
 import { loginService } from "../services/AuthServices";
-import { useAccessRefreshTokenStore } from "../../../common/stores/accessRefreshTokenStore";
+import { useAuthStore } from "../stores/useAuthStore";
 
 export const useLogin = () => {
-  const { saveToken } = useAccessRefreshTokenStore();
+  const { saveToken } = useAuthStore();
   return useMutation({
     mutationFn: loginService,
     onSuccess(data, variables, context) {

@@ -6,16 +6,21 @@ import LoginPage from "../../modules/auth/pages/LoginPage";
 import SignupPage from "../../modules/auth/pages/SignUpPage";
 import taskRoutes from "../../modules/tasks/routers/TaskRouters";
 import UsersRouters from "../../modules/user/routers/UsersRouters";
+import ProtectedRoute from "../../modules/auth/Routers/ProtectedRoute";
 
 const router = createBrowserRouter([
   {
     path: "/",
-    element: <MainLayout />,
+    element: (
+      <ProtectedRoute>
+        <MainLayout />
+      </ProtectedRoute>
+    ),
     children: [
-      { path: "", element: <Dashboard /> }, 
-      { path: "analytics", element: <AnalyticsPage /> }, 
-      { path: "teams", element: <UsersRouters /> }, 
-      taskRoutes
+      { path: "", element: <Dashboard /> },
+      { path: "analytics", element: <AnalyticsPage /> },
+      { path: "teams", element: <UsersRouters /> },
+      taskRoutes,
     ],
   },
   { path: "login", element: <LoginPage /> },

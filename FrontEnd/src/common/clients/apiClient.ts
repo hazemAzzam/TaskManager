@@ -1,5 +1,5 @@
 import axios from "axios";
-import { useAccessRefreshTokenStore } from "../stores/accessRefreshTokenStore";
+import { useAuthStore } from "../../modules/auth/stores/useAuthStore";
 import { ENDPOINTS } from "../constants/endpoints";
 
 const apiClient = axios.create({
@@ -12,7 +12,7 @@ const apiClient = axios.create({
 
 apiClient.interceptors.request.use(
   (config) => {
-    const accessToken = useAccessRefreshTokenStore.getState().access;
+    const accessToken = useAuthStore.getState().access;
 
     if (accessToken) {
       config.headers = config.headers || {};
@@ -33,19 +33,25 @@ apiClient.interceptors.response.use(
       originalRequest._retry = true;
 
       try {
-        const refreshToken = useAccessRefreshTokenStore.getState().refresh;
+        const refreshToken = useAuthStore.getState().refresh;
 
-        const response = await axios.post(`http://127.0.0.1:8000/api${ENDPOINTS.AUTH.REFRESH}/`, { refresh: refreshToken }, { withCredentials: true });
+        const response = await axios.post(
+          `http://127.0.0.1:8000/api${ENDPOINTS.AUTH.REFRESH}/`,
+          { refresh: refreshToken },
+          { withCredentials: true }
+        );
 
         const newAccessToken = response.data.access;
 
-        useAccessRefreshTokenStore.getState().saveToken({
+        useAuthStore.getState().saveToken({
           access: newAccessToken,
           refresh: refreshToken, // re-save it (optional)
         });
 
         // Update headers
-        apiClient.defaults.headers.common["Authorization"] = `Bearer ${newAccessToken}`;
+        apiClient.defaults.headers.common[
+          "Authorization"
+        ] = `Bearer ${newAccessToken}`;
         originalRequest.headers["Authorization"] = `Bearer ${newAccessToken}`;
 
         return apiClient(originalRequest);
