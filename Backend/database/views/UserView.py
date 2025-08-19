@@ -7,11 +7,13 @@ from django.db.models import Q
 
 from database.models import UserModel
 from database.serializers import UserSerializer, UserAutocompleteSerializer, UserProfilePictureSerializer
+from database.pagination import ModelPagination
 
 class UserModelViewSet(viewsets.ModelViewSet):
     queryset = UserModel.objects.all()
     serializer_class = UserSerializer
     permission_classes=[IsAuthenticated]
+    pagination_class = ModelPagination
 
     @action(detail=False, methods=["get"], url_path="autocomplete")
     def autocomplete(self, request):

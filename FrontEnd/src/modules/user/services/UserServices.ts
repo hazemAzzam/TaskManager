@@ -1,8 +1,11 @@
 import apiClient from "../../../common/clients/apiClient";
 import { ENDPOINTS } from "../../../common/constants/endpoints";
 
-export const getAllUsers = async <T>(): Promise<T> => {
-  const { data } = await apiClient.get(`${ENDPOINTS.USERS.ROOT}`);
+export const getAllUsers = async <T>(query: string | undefined): Promise<T> => {
+  const url = query
+    ? `${ENDPOINTS.USERS.ROOT}/?${query}`
+    : ENDPOINTS.USERS.ROOT;
+  const { data } = await apiClient.get<T>(url);
 
   return data;
 };

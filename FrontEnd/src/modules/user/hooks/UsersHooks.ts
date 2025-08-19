@@ -1,11 +1,21 @@
-import { QueryClient, useMutation, useQuery, type UseMutationResult, type UseQueryResult } from "@tanstack/react-query";
-import { getAllUsers, updateUser, uploadUserProfilePicture } from "../services/UserServices";
+import {
+  QueryClient,
+  useMutation,
+  useQuery,
+  type UseMutationResult,
+  type UseQueryResult,
+} from "@tanstack/react-query";
+import {
+  getAllUsers,
+  updateUser,
+  uploadUserProfilePicture,
+} from "../services/UserServices";
 import queryClient from "../../../common/clients/reactQueryClient";
 
-export const useGetUsers = <T>(): UseQueryResult<T> => {
+export const useGetUsers = <T>(query?: string): UseQueryResult<T> => {
   return useQuery<T>({
-    queryKey: ["users"],
-    queryFn: getAllUsers,
+    queryKey: ["users", query],
+    queryFn: () => getAllUsers<T>(query),
   });
 };
 
@@ -23,7 +33,11 @@ export const useUpdateUser = <T>(): UseMutationResult<
   });
 };
 
-export const useUploadProfilePicture = <T>(): UseMutationResult<T, Error, FormData> => {
+export const useUploadProfilePicture = <T>(): UseMutationResult<
+  T,
+  Error,
+  FormData
+> => {
   return useMutation<T, Error, FormData>({
     mutationFn: (formData: FormData) => uploadUserProfilePicture<T>(formData),
     onSuccess: () => {

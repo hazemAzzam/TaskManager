@@ -11,3 +11,4 @@ class PriorityChoices(models.TextChoices):
     LOW = "low", "Low"
     MEDIUM = "medium", "Medium"
     HIGH = "high", "High"
+    URGENT = "urgent", "Urgent"

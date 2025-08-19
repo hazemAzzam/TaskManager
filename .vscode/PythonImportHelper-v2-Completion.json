@@ -226,14 +226,6 @@
         "documentation": {}
     },
     {
-        "label": "PageNumberPagination",
-        "importPath": "rest_framework.pagination",
-        "description": "rest_framework.pagination",
-        "isExtraImport": true,
-        "detail": "rest_framework.pagination",
-        "documentation": {}
-    },
-    {
         "label": "TaskModelSerializer",
         "importPath": "database.serializers",
         "description": "database.serializers",
@@ -274,6 +266,22 @@
         "documentation": {}
     },
     {
+        "label": "ModelPagination",
+        "importPath": "database.pagination",
+        "description": "database.pagination",
+        "isExtraImport": true,
+        "detail": "database.pagination",
+        "documentation": {}
+    },
+    {
+        "label": "ModelPagination",
+        "importPath": "database.pagination",
+        "description": "database.pagination",
+        "isExtraImport": true,
+        "detail": "database.pagination",
+        "documentation": {}
+    },
+    {
         "label": "action",
         "importPath": "rest_framework.decorators",
         "description": "rest_framework.decorators",
@@ -311,6 +319,14 @@
         "description": "django.apps",
         "isExtraImport": true,
         "detail": "django.apps",
+        "documentation": {}
+    },
+    {
+        "label": "PageNumberPagination",
+        "importPath": "rest_framework.pagination",
+        "description": "rest_framework.pagination",
+        "isExtraImport": true,
+        "detail": "rest_framework.pagination",
         "documentation": {}
     },
     {
@@ -559,20 +575,11 @@
         "documentation": {}
     },
     {
-        "label": "TaskPagination",
-        "kind": 6,
-        "importPath": "Backend.database.views.TaskView",
-        "description": "Backend.database.views.TaskView",
-        "peekOfCode": "class TaskPagination(PageNumberPagination):\n    page_size = 10\n    page_size_query_param = \"page_size\"\n    max_page_size = 100\n    def get_page_size(self, request):\n        page_size = request.query_params.get(self.page_size_query_param)\n        if page_size == 'all':\n            return None  # disables pagination, returns all\n        return super().get_page_size(request)\nclass TaskModelViewSet(viewsets.ModelViewSet):",
-        "detail": "Backend.database.views.TaskView",
-        "documentation": {}
-    },
-    {
         "label": "TaskModelViewSet",
         "kind": 6,
         "importPath": "Backend.database.views.TaskView",
         "description": "Backend.database.views.TaskView",
-        "peekOfCode": "class TaskModelViewSet(viewsets.ModelViewSet):\n    queryset = TaskModel.objects.all().order_by(\"-dueDate\")\n    serializer_class = TaskModelSerializer\n    pagination_class = TaskPagination\n    # Enable filtering, searching, ordering\n    filter_backends = [DjangoFilterBackend, filters.SearchFilter, filters.OrderingFilter]\n    # Filters\n    filterset_fields = [\"status\", \"priority\", \"assignee\"]\n    search_fields = [\"title\", \"description\"]\n    ordering_fields = [\"dueDate\", \"priority\", \"status\"]",
+        "peekOfCode": "class TaskModelViewSet(viewsets.ModelViewSet):\n    queryset = TaskModel.objects.all().order_by(\"-dueDate\")\n    serializer_class = TaskModelSerializer\n    pagination_class = ModelPagination\n    # Enable filtering, searching, ordering\n    filter_backends = [DjangoFilterBackend, filters.SearchFilter, filters.OrderingFilter]\n    # Filters\n    filterset_fields = [\"status\", \"priority\", \"assignee\"]\n    search_fields = [\"title\", \"description\"]\n    ordering_fields = [\"dueDate\", \"priority\", \"status\"]",
         "detail": "Backend.database.views.TaskView",
         "documentation": {}
     },
@@ -581,7 +588,7 @@
         "kind": 6,
         "importPath": "Backend.database.views.UserView",
         "description": "Backend.database.views.UserView",
-        "peekOfCode": "class UserModelViewSet(viewsets.ModelViewSet):\n    queryset = UserModel.objects.all()\n    serializer_class = UserSerializer\n    permission_classes=[IsAuthenticated]\n    @action(detail=False, methods=[\"get\"], url_path=\"autocomplete\")\n    def autocomplete(self, request):\n        search = request.query_params.get(\"search\", \"\")\n        queryset = self.get_queryset().filter(\n            Q(username__icontains=search) |\n            Q(full_name__icontains=search) |",
+        "peekOfCode": "class UserModelViewSet(viewsets.ModelViewSet):\n    queryset = UserModel.objects.all()\n    serializer_class = UserSerializer\n    permission_classes=[IsAuthenticated]\n    pagination_class = ModelPagination\n    @action(detail=False, methods=[\"get\"], url_path=\"autocomplete\")\n    def autocomplete(self, request):\n        search = request.query_params.get(\"search\", \"\")\n        queryset = self.get_queryset().filter(\n            Q(username__icontains=search) |",
         "detail": "Backend.database.views.UserView",
         "documentation": {}
     },
@@ -599,7 +606,7 @@
         "kind": 6,
         "importPath": "Backend.database.constants",
         "description": "Backend.database.constants",
-        "peekOfCode": "class StatusChoices(models.TextChoices):\n    PENDING = \"pending\", \"Pending\"\n    IN_PROGRESS = \"in-progress\", \"In Progress\"\n    COMPLETED = \"completed\", \"Completed\"\nclass PriorityChoices(models.TextChoices):\n    LOW = \"low\", \"Low\"\n    MEDIUM = \"medium\", \"Medium\"\n    HIGH = \"high\", \"High\"",
+        "peekOfCode": "class StatusChoices(models.TextChoices):\n    PENDING = \"pending\", \"Pending\"\n    IN_PROGRESS = \"in-progress\", \"In Progress\"\n    COMPLETED = \"completed\", \"Completed\"\nclass PriorityChoices(models.TextChoices):\n    LOW = \"low\", \"Low\"\n    MEDIUM = \"medium\", \"Medium\"\n    HIGH = \"high\", \"High\"\n    URGENT = \"urgent\", \"Urgent\"",
         "detail": "Backend.database.constants",
         "documentation": {}
     },
@@ -608,8 +615,17 @@
         "kind": 6,
         "importPath": "Backend.database.constants",
         "description": "Backend.database.constants",
-        "peekOfCode": "class PriorityChoices(models.TextChoices):\n    LOW = \"low\", \"Low\"\n    MEDIUM = \"medium\", \"Medium\"\n    HIGH = \"high\", \"High\"",
+        "peekOfCode": "class PriorityChoices(models.TextChoices):\n    LOW = \"low\", \"Low\"\n    MEDIUM = \"medium\", \"Medium\"\n    HIGH = \"high\", \"High\"\n    URGENT = \"urgent\", \"Urgent\"",
         "detail": "Backend.database.constants",
+        "documentation": {}
+    },
+    {
+        "label": "ModelPagination",
+        "kind": 6,
+        "importPath": "Backend.database.pagination",
+        "description": "Backend.database.pagination",
+        "peekOfCode": "class ModelPagination(PageNumberPagination):\n    page_size = 10\n    page_size_query_param = \"page_size\"\n    max_page_size = 100\n    def get_page_size(self, request):\n        page_size = request.query_params.get(self.page_size_query_param)\n        if page_size == 'all':\n            return None  # disables pagination, returns all\n        return super().get_page_size(request)",
+        "detail": "Backend.database.pagination",
         "documentation": {}
     },
     {
