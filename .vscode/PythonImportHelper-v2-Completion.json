@@ -58,6 +58,30 @@
         "documentation": {}
     },
     {
+        "label": "migrations",
+        "importPath": "django.db",
+        "description": "django.db",
+        "isExtraImport": true,
+        "detail": "django.db",
+        "documentation": {}
+    },
+    {
+        "label": "models",
+        "importPath": "django.db",
+        "description": "django.db",
+        "isExtraImport": true,
+        "detail": "django.db",
+        "documentation": {}
+    },
+    {
+        "label": "models",
+        "importPath": "django.db",
+        "description": "django.db",
+        "isExtraImport": true,
+        "detail": "django.db",
+        "documentation": {}
+    },
+    {
         "label": "models",
         "importPath": "django.db",
         "description": "django.db",
@@ -138,6 +162,14 @@
         "documentation": {}
     },
     {
+        "label": "filters",
+        "importPath": "rest_framework",
+        "description": "rest_framework",
+        "isExtraImport": true,
+        "detail": "rest_framework",
+        "documentation": {}
+    },
+    {
         "label": "viewsets",
         "importPath": "rest_framework",
         "description": "rest_framework",
@@ -186,6 +218,22 @@
         "documentation": {}
     },
     {
+        "label": "DjangoFilterBackend",
+        "importPath": "django_filters.rest_framework",
+        "description": "django_filters.rest_framework",
+        "isExtraImport": true,
+        "detail": "django_filters.rest_framework",
+        "documentation": {}
+    },
+    {
+        "label": "PageNumberPagination",
+        "importPath": "rest_framework.pagination",
+        "description": "rest_framework.pagination",
+        "isExtraImport": true,
+        "detail": "rest_framework.pagination",
+        "documentation": {}
+    },
+    {
         "label": "TaskModelSerializer",
         "importPath": "database.serializers",
         "description": "database.serializers",
@@ -218,11 +266,11 @@
         "documentation": {}
     },
     {
-        "label": "PageNumberPagination",
-        "importPath": "rest_framework.pagination",
-        "description": "rest_framework.pagination",
+        "label": "JSONRenderer",
+        "importPath": "rest_framework.renderers",
+        "description": "rest_framework.renderers",
         "isExtraImport": true,
-        "detail": "rest_framework.pagination",
+        "detail": "rest_framework.renderers",
         "documentation": {}
     },
     {
@@ -439,6 +487,15 @@
         "documentation": {}
     },
     {
+        "label": "Migration",
+        "kind": 6,
+        "importPath": "Backend.database.migrations.0002_alter_taskmodel_priority_alter_taskmodel_status",
+        "description": "Backend.database.migrations.0002_alter_taskmodel_priority_alter_taskmodel_status",
+        "peekOfCode": "class Migration(migrations.Migration):\n    dependencies = [\n        (\"database\", \"0001_initial\"),\n    ]\n    operations = [\n        migrations.AlterField(\n            model_name=\"taskmodel\",\n            name=\"priority\",\n            field=models.CharField(\n                choices=[(\"low\", \"Low\"), (\"medium\", \"Medium\"), (\"high\", \"High\")],",
+        "detail": "Backend.database.migrations.0002_alter_taskmodel_priority_alter_taskmodel_status",
+        "documentation": {}
+    },
+    {
         "label": "TaskModel",
         "kind": 6,
         "importPath": "Backend.database.models.TaskModel",
@@ -502,11 +559,20 @@
         "documentation": {}
     },
     {
+        "label": "TaskPagination",
+        "kind": 6,
+        "importPath": "Backend.database.views.TaskView",
+        "description": "Backend.database.views.TaskView",
+        "peekOfCode": "class TaskPagination(PageNumberPagination):\n    page_size = 10\n    page_size_query_param = \"page_size\"\n    max_page_size = 100\n    def get_page_size(self, request):\n        page_size = request.query_params.get(self.page_size_query_param)\n        if page_size == 'all':\n            return None  # disables pagination, returns all\n        return super().get_page_size(request)\nclass TaskModelViewSet(viewsets.ModelViewSet):",
+        "detail": "Backend.database.views.TaskView",
+        "documentation": {}
+    },
+    {
         "label": "TaskModelViewSet",
         "kind": 6,
         "importPath": "Backend.database.views.TaskView",
         "description": "Backend.database.views.TaskView",
-        "peekOfCode": "class TaskModelViewSet(viewsets.ModelViewSet):\n    queryset = TaskModel.objects.all()\n    serializer_class = TaskModelSerializer",
+        "peekOfCode": "class TaskModelViewSet(viewsets.ModelViewSet):\n    queryset = TaskModel.objects.all().order_by(\"-dueDate\")\n    serializer_class = TaskModelSerializer\n    pagination_class = TaskPagination\n    # Enable filtering, searching, ordering\n    filter_backends = [DjangoFilterBackend, filters.SearchFilter, filters.OrderingFilter]\n    # Filters\n    filterset_fields = [\"status\", \"priority\", \"assignee\"]\n    search_fields = [\"title\", \"description\"]\n    ordering_fields = [\"dueDate\", \"priority\", \"status\"]",
         "detail": "Backend.database.views.TaskView",
         "documentation": {}
     },
@@ -530,19 +596,19 @@
     },
     {
         "label": "StatusChoices",
-        "kind": 5,
+        "kind": 6,
         "importPath": "Backend.database.constants",
         "description": "Backend.database.constants",
-        "peekOfCode": "StatusChoices = [\n    (\"pending\", \"Pending\"),\n    (\"in-progress\", \"In Progress\"),\n    (\"completed\", \"Completed\")\n]\nPriorityChoices = [\n    (\"low\", \"Low\"),\n    (\"medium\", \"Medium\"),\n    (\"high\", \"High\"),\n    (\"urgent\", \"Urgent\")",
+        "peekOfCode": "class StatusChoices(models.TextChoices):\n    PENDING = \"pending\", \"Pending\"\n    IN_PROGRESS = \"in-progress\", \"In Progress\"\n    COMPLETED = \"completed\", \"Completed\"\nclass PriorityChoices(models.TextChoices):\n    LOW = \"low\", \"Low\"\n    MEDIUM = \"medium\", \"Medium\"\n    HIGH = \"high\", \"High\"",
         "detail": "Backend.database.constants",
         "documentation": {}
     },
     {
         "label": "PriorityChoices",
-        "kind": 5,
+        "kind": 6,
         "importPath": "Backend.database.constants",
         "description": "Backend.database.constants",
-        "peekOfCode": "PriorityChoices = [\n    (\"low\", \"Low\"),\n    (\"medium\", \"Medium\"),\n    (\"high\", \"High\"),\n    (\"urgent\", \"Urgent\")\n]",
+        "peekOfCode": "class PriorityChoices(models.TextChoices):\n    LOW = \"low\", \"Low\"\n    MEDIUM = \"medium\", \"Medium\"\n    HIGH = \"high\", \"High\"",
         "detail": "Backend.database.constants",
         "documentation": {}
     },
@@ -641,7 +707,7 @@
         "kind": 5,
         "importPath": "Backend.TaskManagerApi.settings",
         "description": "Backend.TaskManagerApi.settings",
-        "peekOfCode": "ROOT_URLCONF = 'TaskManagerApi.urls'\nTEMPLATES = [\n    {\n        'BACKEND': 'django.template.backends.django.DjangoTemplates',\n        'DIRS': [],\n        'APP_DIRS': True,\n        'OPTIONS': {\n            'context_processors': [\n                'django.template.context_processors.debug',\n                'django.template.context_processors.request',",
+        "peekOfCode": "ROOT_URLCONF = 'TaskManagerApi.urls'\nTEMPLATES = [\n    {\n        'BACKEND': 'django.template.backends.django.DjangoTemplates',\n        \"DIRS\": [BASE_DIR / \"templates\"],\n        'APP_DIRS': True,\n        'OPTIONS': {\n            'context_processors': [\n                'django.template.context_processors.debug',\n                'django.template.context_processors.request',",
         "detail": "Backend.TaskManagerApi.settings",
         "documentation": {}
     },
@@ -650,7 +716,7 @@
         "kind": 5,
         "importPath": "Backend.TaskManagerApi.settings",
         "description": "Backend.TaskManagerApi.settings",
-        "peekOfCode": "TEMPLATES = [\n    {\n        'BACKEND': 'django.template.backends.django.DjangoTemplates',\n        'DIRS': [],\n        'APP_DIRS': True,\n        'OPTIONS': {\n            'context_processors': [\n                'django.template.context_processors.debug',\n                'django.template.context_processors.request',\n                'django.contrib.auth.context_processors.auth',",
+        "peekOfCode": "TEMPLATES = [\n    {\n        'BACKEND': 'django.template.backends.django.DjangoTemplates',\n        \"DIRS\": [BASE_DIR / \"templates\"],\n        'APP_DIRS': True,\n        'OPTIONS': {\n            'context_processors': [\n                'django.template.context_processors.debug',\n                'django.template.context_processors.request',\n                'django.contrib.auth.context_processors.auth',",
         "detail": "Backend.TaskManagerApi.settings",
         "documentation": {}
     },
@@ -740,7 +806,7 @@
         "kind": 5,
         "importPath": "Backend.TaskManagerApi.settings",
         "description": "Backend.TaskManagerApi.settings",
-        "peekOfCode": "MEDIA_URL = '/media/'\nMEDIA_ROOT = BASE_DIR / 'media'\n# Default primary key field type\n# https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field\nDEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'\nREST_FRAMEWORK = {\n    'DEFAULT_AUTHENTICATION_CLASSES': (\n        'rest_framework_simplejwt.authentication.JWTAuthentication',\n    ),\n    'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',",
+        "peekOfCode": "MEDIA_URL = '/media/'\nMEDIA_ROOT = BASE_DIR / 'media'\n# Default primary key field type\n# https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field\nDEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'\nREST_FRAMEWORK = {\n    'DEFAULT_AUTHENTICATION_CLASSES': (\n        'rest_framework_simplejwt.authentication.JWTAuthentication',\n    ),\n    \"DEFAULT_FILTER_BACKENDS\": [",
         "detail": "Backend.TaskManagerApi.settings",
         "documentation": {}
     },
@@ -749,7 +815,7 @@
         "kind": 5,
         "importPath": "Backend.TaskManagerApi.settings",
         "description": "Backend.TaskManagerApi.settings",
-        "peekOfCode": "MEDIA_ROOT = BASE_DIR / 'media'\n# Default primary key field type\n# https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field\nDEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'\nREST_FRAMEWORK = {\n    'DEFAULT_AUTHENTICATION_CLASSES': (\n        'rest_framework_simplejwt.authentication.JWTAuthentication',\n    ),\n    'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',\n    'PAGE_SIZE': 5,",
+        "peekOfCode": "MEDIA_ROOT = BASE_DIR / 'media'\n# Default primary key field type\n# https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field\nDEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'\nREST_FRAMEWORK = {\n    'DEFAULT_AUTHENTICATION_CLASSES': (\n        'rest_framework_simplejwt.authentication.JWTAuthentication',\n    ),\n    \"DEFAULT_FILTER_BACKENDS\": [\n        \"django_filters.rest_framework.DjangoFilterBackend\"",
         "detail": "Backend.TaskManagerApi.settings",
         "documentation": {}
     },
@@ -758,7 +824,7 @@
         "kind": 5,
         "importPath": "Backend.TaskManagerApi.settings",
         "description": "Backend.TaskManagerApi.settings",
-        "peekOfCode": "DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'\nREST_FRAMEWORK = {\n    'DEFAULT_AUTHENTICATION_CLASSES': (\n        'rest_framework_simplejwt.authentication.JWTAuthentication',\n    ),\n    'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',\n    'PAGE_SIZE': 5,\n}\nfrom datetime import timedelta\nSIMPLE_JWT = {",
+        "peekOfCode": "DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'\nREST_FRAMEWORK = {\n    'DEFAULT_AUTHENTICATION_CLASSES': (\n        'rest_framework_simplejwt.authentication.JWTAuthentication',\n    ),\n    \"DEFAULT_FILTER_BACKENDS\": [\n        \"django_filters.rest_framework.DjangoFilterBackend\"\n    ],\n    \"DEFAULT_RENDERER_CLASSES\": [\n        \"rest_framework.renderers.JSONRenderer\",",
         "detail": "Backend.TaskManagerApi.settings",
         "documentation": {}
     },
@@ -767,7 +833,7 @@
         "kind": 5,
         "importPath": "Backend.TaskManagerApi.settings",
         "description": "Backend.TaskManagerApi.settings",
-        "peekOfCode": "REST_FRAMEWORK = {\n    'DEFAULT_AUTHENTICATION_CLASSES': (\n        'rest_framework_simplejwt.authentication.JWTAuthentication',\n    ),\n    'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',\n    'PAGE_SIZE': 5,\n}\nfrom datetime import timedelta\nSIMPLE_JWT = {\n    'ACCESS_TOKEN_LIFETIME': timedelta(seconds=10),  # ⏱ change to your desired duration",
+        "peekOfCode": "REST_FRAMEWORK = {\n    'DEFAULT_AUTHENTICATION_CLASSES': (\n        'rest_framework_simplejwt.authentication.JWTAuthentication',\n    ),\n    \"DEFAULT_FILTER_BACKENDS\": [\n        \"django_filters.rest_framework.DjangoFilterBackend\"\n    ],\n    \"DEFAULT_RENDERER_CLASSES\": [\n        \"rest_framework.renderers.JSONRenderer\",\n        \"rest_framework.renderers.BrowsableAPIRenderer\",  # optional",
         "detail": "Backend.TaskManagerApi.settings",
         "documentation": {}
     },

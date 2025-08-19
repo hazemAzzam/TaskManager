@@ -1,11 +1,21 @@
-import { useMutation, useQuery, useQueryClient, type UseQueryResult } from "@tanstack/react-query";
-import { DeleteTask, GetTasks, PostTask, UpdateTask } from "../services/tasksServices";
+import {
+  useMutation,
+  useQuery,
+  useQueryClient,
+  type UseQueryResult,
+} from "@tanstack/react-query";
+import {
+  DeleteTask,
+  GetTasks,
+  PostTask,
+  UpdateTask,
+} from "../services/tasksServices";
 import type { TaskData } from "../schemas/TaskFormSchema";
 
-export const useGetTasks = <T>(): UseQueryResult<T> => {
+export const useGetTasks = <T>(query?: string): UseQueryResult<T> => {
   return useQuery<T>({
-    queryKey: ["tasks"],
-    queryFn: () => GetTasks<T>(),
+    queryKey: ["tasks", query], // ✅ queryKey depends on query
+    queryFn: () => GetTasks<T>(query),
   });
 };
 
@@ -24,7 +34,8 @@ export const useUpdateTask = () => {
   const queryClient = useQueryClient();
 
   return useMutation({
-    mutationFn: ({ id, task }: { id: string; task: TaskData }) => UpdateTask(id, task),
+    mutationFn: ({ id, task }: { id: string; task: TaskData }) =>
+      UpdateTask(id, task),
     onSuccess: () => {
       queryClient.invalidateQueries(["tasks"]);
     },

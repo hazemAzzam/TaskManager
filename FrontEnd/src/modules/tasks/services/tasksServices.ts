@@ -2,8 +2,10 @@ import apiClient from "../../../common/clients/apiClient";
 import { ENDPOINTS } from "../../../common/constants/endpoints";
 import type { TaskData } from "../schemas/TaskFormSchema";
 
-export const GetTasks = async <T>(): Promise<T> => {
-  const { data } = await apiClient.get<T>(ENDPOINTS.TASKS);
+export const GetTasks = async <T>(query?: string | null): Promise<T> => {
+  const url = query ? `${ENDPOINTS.TASKS}/?${query}` : ENDPOINTS.TASKS;
+  const { data } = await apiClient.get<T>(url);
+
   return data;
 };
 

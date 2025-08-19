@@ -1,12 +1,13 @@
-StatusChoices = [
-    ("pending", "Pending"),
-    ("in-progress", "In Progress"),
-    ("completed", "Completed")
-]
+from django.db import models
 
-PriorityChoices = [
-    ("low", "Low"),
-    ("medium", "Medium"),
-    ("high", "High"),
-    ("urgent", "Urgent")
-]
+
+class StatusChoices(models.TextChoices):
+    PENDING = "pending", "Pending"
+    IN_PROGRESS = "in-progress", "In Progress"
+    COMPLETED = "completed", "Completed"
+
+
+class PriorityChoices(models.TextChoices):
+    LOW = "low", "Low"
+    MEDIUM = "medium", "Medium"
+    HIGH = "high", "High"
