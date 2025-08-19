@@ -25,9 +25,11 @@ SECRET_KEY = 'django-insecure-gudc4!@si@y(pfpl0ytsp_z16d@(zr91xojz+t#$%q6q8vi!%z
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS=['*']
+ALLOWED_HOSTS=[
+    '127.0.0.1',
+]
 
-CORS_ORIGIN_ALLOW_ALL = True
+
 
 
 # Application definition
@@ -42,6 +44,7 @@ INSTALLED_APPS = [
     "corsheaders",
     'database',
     'rest_framework',
+    'rest_framework_simplejwt',
 ]
 
 
@@ -55,10 +58,6 @@ MIDDLEWARE = [
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
 ]
-
-# In dev, allow non-HTTPS cookies
-SESSION_COOKIE_SECURE = False
-CSRF_COOKIE_SECURE = False
 
 ROOT_URLCONF = 'TaskManagerApi.urls'
 
@@ -130,12 +129,31 @@ USE_TZ = True
 
 STATIC_URL = 'static/'
 
+MEDIA_URL = '/media/'
+MEDIA_ROOT = BASE_DIR / 'media'
+
+
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+        'rest_framework_simplejwt.authentication.JWTAuthentication',
+    ),
     'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',
     'PAGE_SIZE': 5,
 }
+
+
+CORS_ALLOWED_ORIGINS = [
+    'http://localhost:5173',
+]
+
+
+CORS_ALLOW_CREDENTIALS = True
+
+# CSRF (if you want to add CSRF protection later)
+CSRF_COOKIE_SECURE = True
+SESSION_COOKIE_SECURE = True

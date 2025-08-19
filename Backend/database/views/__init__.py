@@ -1,2 +1,2 @@
-from database.views.TaskView import TaskModelViewSet
-from database.views.UserView import UserModelViewSet
+from database.views.TaskView import *
+from database.views.UserView import *

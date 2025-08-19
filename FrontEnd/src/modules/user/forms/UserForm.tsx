@@ -4,6 +4,8 @@ import { UserSchema, type UserData } from "../schemas/UserSchema";
 import { zodResolver } from "@hookform/resolvers/zod";
 import Input from "../../../common/ui/Input";
 import Select from "../../../common/ui/Select";
+import ImageField from "../../../common/ui/ImageField";
+import { useUpdateUser } from "../hooks/UsersHooks";
 
 export default function UserForm() {
   const { user, closeUserModal } = useUserModelStore();
@@ -17,9 +19,22 @@ export default function UserForm() {
     defaultValues: user ?? {},
   });
 
+  const updateUser = useUpdateUser();
+
   const onSubmit = (data: UserData) => {
-    console.log("Submitted data:", data);
-    // TODO: call update API or store method here
+    if (!user?.id) return;
+
+    updateUser.mutate(
+      { id: user.id, user: data },
+      {
+        onSuccess: () => {
+          closeUserModal();
+        },
+        onError: (error) => {
+          console.error("Failed to update user:", error);
+        },
+      }
+    );
   };
 
   return (
@@ -28,20 +43,24 @@ export default function UserForm() {
         <h2 className="text-xl font-bold mb-4">Edit Member</h2>
 
         <form onSubmit={handleSubmit(onSubmit)}>
-          <div className="space-y-4 flex gap-2">
-            <Input name="email" type="email" label="Email:" register={register} error={errors.email?.message} />
-            <Select
-              label="Role"
-              name="role"
-              register={register}
-              error={errors.role?.message}
-              options={[
-                { label: "Admin", value: "admin" },
-                { label: "User", value: "user" },
-              ]}
-              className="w-fit!"
-            />
+          <div className=" flex gap-2 items-center justify-start h-full w-full ">
+            <ImageField register={register} name="profilePicture" />
+            <div className="flex flex-col items-start justify-between  flex-grow">
+              <Input name="email" type="email" label="Email:" register={register} error={errors.email?.message} />
+              <Select
+                label="Role"
+                name="role"
+                register={register}
+                error={errors.role?.message}
+                options={[
+                  { label: "Admin", value: "admin" },
+                  { label: "User", value: "user" },
+                ]}
+                className="w-full!"
+              />
+            </div>
           </div>
+          {/* <div className="space-y-4 flex gap-2"></div> */}
 
           <div className="space-y-4 flex gap-2">
             <Input name="username" label="Username:" register={register} error={errors.username?.message} />

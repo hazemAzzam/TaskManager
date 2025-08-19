@@ -1,6 +1,8 @@
 from django.db import models
 from django.contrib.auth.models import AbstractBaseUser, PermissionsMixin, BaseUserManager
 
+from database.utils import user_profile_picture_path
+
 class UserManager(BaseUserManager):
     def create_user(self, username, email, full_name, password=None, role="user"):
         if not email:
@@ -21,12 +23,16 @@ class UserManager(BaseUserManager):
         user.save(using=self._db)
         return user
 
+
+
 class UserModel(AbstractBaseUser, PermissionsMixin):
     ROLE_CHOICES = [
         ("user", "User"),
         ("admin", "Admin"),
         ("manager", "Manager"),
     ]
+
+    profile_picture = models.ImageField(upload_to=user_profile_picture_path, null=True, blank=True)
 
     username = models.CharField(max_length=150, unique=True)
     email = models.EmailField(unique=True)

@@ -1,10 +1,10 @@
 import { useGetUsers } from "../hooks/UsersHooks";
 import { useUserModelStore } from "../stores/userModelStore";
 import type { UsersWithPagination } from "../types/UserType";
-import { SquarePen, User } from "lucide-react";
+import { Image, SquarePen, User } from "lucide-react";
 
 export default function UsersPage() {
-  const { openUserModal } = useUserModelStore();
+  const { openUserModal, openProfileModal } = useUserModelStore();
   const { data: users } = useGetUsers<UsersWithPagination>();
 
   return (
@@ -34,9 +34,14 @@ export default function UsersPage() {
                       <p className="text-sm text-gray-600">@{user.username}</p>
                     </div>
                   </div>
-                  <button className="absolute right-[-100px] group-hover:right-[0px] transition-all duration-300 ease-in-out text-white cursor-pointer p-[12px] bg-blue-500 rounded-full" onClick={() => openUserModal(user)}>
-                    <SquarePen />
-                  </button>
+                  <div className="flex gap-3 items-center absolute right-[-100%] group-hover:right-[-0%] transition-all duration-300 ease-in-out">
+                    <button className=" text-white cursor-pointer p-[12px] bg-blue-500 rounded-full" onClick={() => openUserModal(user)}>
+                      <SquarePen />
+                    </button>
+                    <button className="text-white cursor-pointer p-[12px] bg-green-500 rounded-full" onClick={() => openProfileModal(user)}>
+                      <Image />
+                    </button>
+                  </div>
                 </div>
 
                 <div className="space-y-2">

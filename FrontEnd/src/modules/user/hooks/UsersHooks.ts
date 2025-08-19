@@ -1,9 +1,33 @@
-import { QueryClient, useQuery, type UseQueryResult } from "@tanstack/react-query";
-import { getAllUsers } from "../services/UserServices";
+import { QueryClient, useMutation, useQuery, type UseMutationResult, type UseQueryResult } from "@tanstack/react-query";
+import { getAllUsers, updateUser, uploadUserProfilePicture } from "../services/UserServices";
+import queryClient from "../../../common/clients/reactQueryClient";
 
 export const useGetUsers = <T>(): UseQueryResult<T> => {
   return useQuery<T>({
     queryKey: ["users"],
     queryFn: getAllUsers,
+  });
+};
+
+export const useUpdateUser = <T>(): UseMutationResult<
+  T, // Return type of mutation
+  unknown, // Error type (you can specify a better one if needed)
+  { id: string; user: T }, // Variables passed to mutationFn
+  unknown // Context (used in onMutate/rollback scenarios)
+> => {
+  return useMutation<T, unknown, { id: string; user: T }>({
+    mutationFn: ({ id, user }) => updateUser<T>(id, user),
+    onSuccess: () => {
+      queryClient.invalidateQueries(["users"]);
+    },
+  });
+};
+
+export const useUploadProfilePicture = <T>(): UseMutationResult<T, Error, FormData> => {
+  return useMutation<T, Error, FormData>({
+    mutationFn: (formData: FormData) => uploadUserProfilePicture<T>(formData),
+    onSuccess: () => {
+      queryClient.invalidateQueries(["users", "current"]);
+    },
   });
 };

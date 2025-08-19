@@ -1,20 +1,28 @@
-import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { ROUTES } from "../../../common/constants/routes";
+import { useLogin } from "../hooks/AuthHooks";
+import Input from "../../../common/ui/Input";
+import { useForm } from "react-hook-form";
+import { LoginFormSchema, type LoginFormData } from "../schemas/LoginSchema";
+import { zodResolver } from "@hookform/resolvers/zod";
 
 export default function LoginPage() {
-  const [formData, setFormData] = useState({ username: "", password: "" });
-  const [error, setError] = useState("");
   const navigate = useNavigate();
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<LoginFormData>({
+    resolver: zodResolver(LoginFormSchema),
+  });
+  const login = useLogin();
 
-  const handleSubmit = (e: any) => {
-    e.preventDefault();
-    navigate(ROUTES.DASHBOARD);
-    // if (handleLogin(formData.username, formData.password)) {
-    //   setError("");
-    // } else {
-    //   setError("Invalid credentials");
-    // }
+  const onSubmit = (data: LoginFormData) => {
+    login.mutate(data);
+
+    if (login.isSuccess) {
+      navigate(ROUTES.DASHBOARD);
+    }
   };
 
   return (
@@ -25,18 +33,9 @@ export default function LoginPage() {
           <p className="text-gray-600">Please sign in to your account</p>
         </div>
 
-        <form onSubmit={handleSubmit} className="space-y-6">
-          <div>
-            <label className="block text-sm font-medium text-gray-700 mb-2">Username</label>
-            <input type="text" value={formData.username} onChange={(e) => setFormData({ ...formData, username: e.target.value })} className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent" placeholder="Enter your username" required />
-          </div>
-
-          <div>
-            <label className="block text-sm font-medium text-gray-700 mb-2">Password</label>
-            <input type="password" value={formData.password} onChange={(e) => setFormData({ ...formData, password: e.target.value })} className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent" placeholder="Enter your password" required />
-          </div>
-
-          {error && <div className="text-red-500 text-sm">{error}</div>}
+        <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
+          <Input label="Username" name="username" register={register} error={errors.username?.message} className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent" placeholder="Enter your username" />
+          <Input type="password" label="Password" name="password" register={register} error={errors.password?.message} className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent" placeholder="Enter your username" />
 
           <button type="submit" className="w-full bg-blue-600 text-white py-3 rounded-lg hover:bg-blue-700 transition duration-200">
             Sign In

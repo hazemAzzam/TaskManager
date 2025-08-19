@@ -7,6 +7,7 @@ export const UserSchema = z.object({
   }),
   username: z.string().min(1, "Username is required"),
   full_name: z.string().min(1, "Full name is required"),
+  profilePicture: z.any(),
 });
 
 export type UserData = z.infer<typeof UserSchema>;

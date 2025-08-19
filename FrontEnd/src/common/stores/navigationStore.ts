@@ -10,6 +10,5 @@ export const useNavigationStore = create<NavigationStoreState>((set) => ({
   currentPage: "",
   navigate: (page) => {
     set({ currentPage: page });
-    Router.push(page); // actually change the page
   },
 }));

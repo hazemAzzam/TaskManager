@@ -6,3 +6,20 @@ export const getAllUsers = async <T>(): Promise<T> => {
 
   return data;
 };
+
+export const updateUser = async <T>(id: string, user: T): Promise<T> => {
+  const { data } = await apiClient.put(`${ENDPOINTS.USERS}/${id}/`, user);
+
+  return data;
+};
+
+export const uploadUserProfilePicture = async <T>(formData: FormData): Promise<T> => {
+  const { data } = await apiClient.post(`${ENDPOINTS.USERS.UPLOAD_PROFILE_PICTURE}`, formData, {
+    headers: {
+      "Content-Type": "multipart/form-data",
+    },
+  });
+
+  return data;
+};
+

@@ -2,11 +2,13 @@ import { LogOut, Home, CheckSquare, Users, BarChart3, User } from "lucide-react"
 import { useNavigate } from "react-router-dom";
 import { ROUTES } from "../constants/routes";
 import { useState } from "react";
+import { useGetCurrentUser } from "../hooks/useGetCurrentUser";
+import type { UserType } from "../../modules/user/types/UserType";
 
 export default function Navbar() {
-  const currentPage = window.location.pathname;
   const navigate = useNavigate();
   const [menuState, setMenuState] = useState(false);
+  const currentUser = useGetCurrentUser<UserType>();
 
   return (
     <nav className="bg-white shadow-lg p-4">
@@ -21,9 +23,10 @@ export default function Navbar() {
           </div>
 
           <div className="flex relative items-center space-x-4">
-            <div className="flex items-center gap-2 hover:cursor-pointer select-none" onClick={() => setMenuState((prev) => !prev)}>
-              <User />
-              <span className="text-sm text-gray-600">Hazem Mohamed</span>
+            <div className="flex items-center gap-2 hover:cursor-pointer min-w-[150px] select-none" onClick={() => setMenuState((prev) => !prev)}>
+              {/* <User /> */}
+              <img src={`${currentUser?.data?.profile_picture}`} alt="" className="w-[50px] h-[50px]" />
+              <span className="text-sm text-gray-600">{currentUser?.data?.full_name}</span>
             </div>
 
             <div className={`flex-col absolute top-[150%] right-0 bg-white shadow-lg w-full z-50  ${menuState ? "flex" : "hidden"}`}>
