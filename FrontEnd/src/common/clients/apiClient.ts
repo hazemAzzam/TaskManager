@@ -35,7 +35,7 @@ apiClient.interceptors.response.use(
       try {
         const refreshToken = useAccessRefreshTokenStore.getState().refresh;
 
-        const response = await axios.post(`http://127.0.0.1/api${ENDPOINTS.AUTH.REFRESH}/`, { refresh: refreshToken }, { withCredentials: true });
+        const response = await axios.post(`http://127.0.0.1:8000/api${ENDPOINTS.AUTH.REFRESH}/`, { refresh: refreshToken }, { withCredentials: true });
 
         const newAccessToken = response.data.access;
 
