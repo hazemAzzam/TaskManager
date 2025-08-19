@@ -146,6 +146,20 @@ REST_FRAMEWORK = {
     'PAGE_SIZE': 5,
 }
 
+from datetime import timedelta
+
+SIMPLE_JWT = {
+    'ACCESS_TOKEN_LIFETIME': timedelta(seconds=10),  # ⏱ change to your desired duration
+    'REFRESH_TOKEN_LIFETIME': timedelta(days=7),     # ⏱ change as needed
+    'ROTATE_REFRESH_TOKENS': False,
+    'BLACKLIST_AFTER_ROTATION': True,
+
+    'ALGORITHM': 'HS256',
+    'SIGNING_KEY': SECRET_KEY,
+
+    'AUTH_HEADER_TYPES': ('Bearer',),
+}
+
 
 CORS_ALLOWED_ORIGINS = [
     'http://localhost:5173',

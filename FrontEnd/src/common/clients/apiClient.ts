@@ -1,5 +1,6 @@
 import axios from "axios";
 import { useAccessRefreshTokenStore } from "../stores/accessRefreshTokenStore";
+import { ENDPOINTS } from "../constants/endpoints";
 
 const apiClient = axios.create({
   baseURL: "http://127.0.0.1:8000/api",
@@ -8,8 +9,6 @@ const apiClient = axios.create({
   },
   withCredentials: true,
 });
-
-export default apiClient;
 
 apiClient.interceptors.request.use(
   (config) => {
@@ -22,7 +21,42 @@ apiClient.interceptors.request.use(
 
     return config;
   },
-  (error) => {
+  (error) => Promise.reject(error)
+);
+
+apiClient.interceptors.response.use(
+  (response) => response,
+  async (error) => {
+    const originalRequest = error.config;
+
+    if (error.response?.status === 401 && !originalRequest._retry) {
+      originalRequest._retry = true;
+
+      try {
+        const refreshToken = useAccessRefreshTokenStore.getState().refresh;
+
+        const response = await axios.post(`http://127.0.0.1/api${ENDPOINTS.AUTH.REFRESH}/`, { refresh: refreshToken }, { withCredentials: true });
+
+        const newAccessToken = response.data.access;
+
+        useAccessRefreshTokenStore.getState().saveToken({
+          access: newAccessToken,
+          refresh: refreshToken, // re-save it (optional)
+        });
+
+        // Update headers
+        apiClient.defaults.headers.common["Authorization"] = `Bearer ${newAccessToken}`;
+        originalRequest.headers["Authorization"] = `Bearer ${newAccessToken}`;
+
+        return apiClient(originalRequest);
+      } catch (err) {
+        console.error("🔒 Token refresh failed", err);
+        return Promise.reject(err);
+      }
+    }
+
     return Promise.reject(error);
   }
 );
+
+export default apiClient;

@@ -44,7 +44,7 @@ export default function UserForm() {
 
         <form onSubmit={handleSubmit(onSubmit)}>
           <div className=" flex gap-2 items-center justify-start h-full w-full ">
-            <ImageField register={register} name="profilePicture" />
+            <ImageField register={register} url={user?.profile_picture} name="profilePicture" />
             <div className="flex flex-col items-start justify-between  flex-grow">
               <Input name="email" type="email" label="Email:" register={register} error={errors.email?.message} />
               <Select

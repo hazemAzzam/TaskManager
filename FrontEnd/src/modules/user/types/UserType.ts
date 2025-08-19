@@ -4,7 +4,7 @@ export type UserType = {
   full_name: string;
   role: "admin" | "user";
   email: string;
-  profile_picture?: File;
+  profile_picture?: string;
 };
 
 export type UsersWithPagination = {
