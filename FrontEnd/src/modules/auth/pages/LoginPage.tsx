@@ -73,14 +73,6 @@ export default function LoginPage() {
             </button>
           </p>
         </div>
-
-        <div className="mt-4 p-3 bg-gray-100 rounded-lg text-xs text-gray-600">
-          <p>
-            <strong>Demo credentials:</strong>
-          </p>
-          <p>Username: john_doe | Password: password123</p>
-          <p>Username: jane_smith | Password: password123</p>
-        </div>
       </div>
     </div>
   );
