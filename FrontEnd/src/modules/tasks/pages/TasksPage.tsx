@@ -7,8 +7,9 @@ import Select from "../../../common/ui/Select";
 import type { TasksWithPagentation } from "../types/TaskType";
 import Input from "../../../common/ui/Input";
 import { useSearchParams } from "react-router-dom";
+import type { TaskFiltersType } from "../types/TaskFiltersType";
 
-const buildQueryString = (filters: typeof filters) => {
+const buildQueryString = (filters: TaskFiltersType) => {
   const params = new URLSearchParams();
 
   if (filters.search) params.set("search", filters.search);
