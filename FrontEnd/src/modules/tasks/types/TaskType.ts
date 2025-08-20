@@ -14,5 +14,6 @@ export type TasksWithPagentation = {
   count: number;
   next?: string;
   previous?: string;
+  total_pages?: number;
   results: TaskType[];
 };

@@ -15,6 +15,7 @@ const buildQueryString = (filters: TaskFiltersType) => {
   if (filters.search) params.set("search", filters.search);
   if (filters.status && filters.status !== "all") params.set("status", filters.status);
   if (filters.priority && filters.priority !== "all") params.set("priority", filters.priority);
+  if (filters.page) params.set("page", filters.page);
 
   return params.toString();
 };
@@ -25,6 +26,7 @@ export default function TasksPage() {
     search: searchParams.get("search") || "",
     status: searchParams.get("status") || "all",
     priority: searchParams.get("priority") || "all",
+    page: searchParams.get("page") || "1",
   });
 
   const [queryString, setQueryString] = useState(() => buildQueryString(filters));
@@ -34,16 +36,36 @@ export default function TasksPage() {
 
   const { mutate: deleteTask } = useDeleteTask();
 
-  const handleFilters = (e: React.FormEvent) => {
-    e.preventDefault();
+  const handlePageChange = (page: number) => {
+    const newFilters = { ...filters, page: String(page) };
+    setFilters(newFilters);
 
-    const newQuery = buildQueryString(filters);
+    const newQuery = buildQueryString(newFilters);
     setQueryString(newQuery);
 
     const newParams: Record<string, string> = {};
-    if (filters.search) newParams.search = filters.search;
-    if (filters.status !== "all") newParams.status = filters.status;
-    if (filters.priority !== "all") newParams.priority = filters.priority;
+    if (newFilters.search) newParams.search = newFilters.search;
+    if (newFilters.status !== "all") newParams.status = newFilters.status;
+    if (newFilters.priority !== "all") newParams.priority = newFilters.priority;
+    newParams.page = String(page);
+
+    setSearchParams(newParams);
+  };
+
+  const handleFilters = (e: React.FormEvent) => {
+    e.preventDefault();
+
+    const newFilters = { ...filters, page: "1" };
+    setFilters(newFilters);
+
+    const newQuery = buildQueryString(newFilters);
+    setQueryString(newQuery);
+
+    const newParams: Record<string, string> = {};
+    if (newFilters.search) newParams.search = newFilters.search;
+    if (newFilters.status !== "all") newParams.status = newFilters.status;
+    if (newFilters.priority !== "all") newParams.priority = newFilters.priority;
+    newParams.page = "1";
 
     setSearchParams(newParams);
   };
@@ -167,15 +189,16 @@ export default function TasksPage() {
               </div>
               <div>
                 <nav className="relative z-0 inline-flex rounded-md shadow-sm -space-x-px">
-                  <button onClick={() => {}} className="relative inline-flex items-center px-2 py-2 rounded-l-md border border-gray-300 bg-white text-sm font-medium text-gray-500 hover:bg-gray-50 disabled:opacity-50">
+                  <button onClick={() => handlePageChange(Number(filters.page) - 1)} disabled={Number(filters.page) <= 1} className="relative inline-flex items-center px-2 py-2 rounded-l-md border border-gray-300 bg-white text-sm font-medium text-gray-500 hover:bg-gray-50 disabled:opacity-50">
                     <ChevronLeft size={20} />
                   </button>
-                  {Array.from({ length: 3 }, (_, i) => i + 1).map((page) => (
-                    <button key={page} onClick={() => {}} className={`relative inline-flex items-center px-4 py-2 border text-sm font-medium ${page === 1 ? "z-10 bg-blue-50 border-blue-500 text-blue-600" : "bg-white border-gray-300 text-gray-500 hover:bg-gray-50"}`}>
+                  {Array.from({ length: tasks?.total_pages || 0 }, (_, i) => i + 1).map((page) => (
+                    <button key={page} onClick={() => handlePageChange(page)} className={`relative inline-flex items-center px-4 py-2 border text-sm font-medium ${filters.page === String(page) ? "z-10 bg-blue-50 border-blue-500 text-blue-600" : "bg-white border-gray-300 text-gray-500 hover:bg-gray-50"}`}>
                       {page}
                     </button>
                   ))}
-                  <button onClick={() => {}} className="relative inline-flex items-center px-2 py-2 rounded-r-md border border-gray-300 bg-white text-sm font-medium text-gray-500 hover:bg-gray-50 disabled:opacity-50">
+
+                  <button onClick={() => handlePageChange(Number(filters.page) + 1)} disabled={Number(filters.page) >= (tasks?.total_pages || 1)} className="relative inline-flex items-center px-2 py-2 rounded-r-md border border-gray-300 bg-white text-sm font-medium text-gray-500 hover:bg-gray-50 disabled:opacity-50">
                     <ChevronRight size={20} />
                   </button>
                 </nav>

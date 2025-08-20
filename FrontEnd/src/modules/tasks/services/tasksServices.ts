@@ -6,6 +6,8 @@ export const GetTasks = async <T>(query?: string | null): Promise<T> => {
   const url = query ? `${ENDPOINTS.TASKS}/?${query}` : ENDPOINTS.TASKS;
   const { data } = await apiClient.get<T>(url);
 
+  console.log("data", data);
+
   return data;
 };
 
