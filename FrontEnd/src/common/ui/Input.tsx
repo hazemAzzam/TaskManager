@@ -29,7 +29,7 @@ export default function Input({ label, name, type = "text", placeholder, registe
   };
 
   return (
-    <div className={`mb-4 w-full ${className}`}>
+    <div className={`h-fit w-full ${className}`}>
       {label && (
         <label htmlFor={name} className="block text-sm font-medium mb-1 text-gray-700">
           {label}

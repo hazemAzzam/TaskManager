@@ -22,7 +22,7 @@ export default function Select({ label, name, options, register, onChange, value
   const registerProps = register ? register(name) : {};
 
   return (
-    <div className={`mb-4 w-full ${className}`}>
+    <div className={`h-fit w-full ${className}`}>
       {label && (
         <label htmlFor={name} className="block text-sm font-medium mb-1 text-gray-700 ">
           {label}
