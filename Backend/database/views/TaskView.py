@@ -11,7 +11,6 @@ from database.pagination import ModelPagination
 class TaskModelViewSet(viewsets.ModelViewSet):
     queryset = TaskModel.objects.all().order_by("-dueDate")
     serializer_class = TaskModelSerializer
-    pagination_class = ModelPagination
 
     # Enable filtering, searching, ordering
     filter_backends = [DjangoFilterBackend, filters.SearchFilter, filters.OrderingFilter]

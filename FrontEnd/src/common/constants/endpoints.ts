@@ -12,4 +12,4 @@ export const ENDPOINTS = {
     TOKEN: "/token/",
     REFRESH: "/token/refresh",
   },
-} as const;
+};

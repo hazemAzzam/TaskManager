@@ -3,11 +3,11 @@ import { useAuthStore } from "../../modules/auth/stores/useAuthStore";
 import { ENDPOINTS } from "../constants/endpoints";
 
 const apiClient = axios.create({
-  baseURL: "http://127.0.0.1:8000/api",
+  baseURL: import.meta.env.VITE_API_URL,
   headers: {
     "Content-Type": "application/json",
   },
-  withCredentials: true,
+  withCredentials: false,
 });
 
 apiClient.interceptors.request.use(
@@ -35,23 +35,17 @@ apiClient.interceptors.response.use(
       try {
         const refreshToken = useAuthStore.getState().refresh;
 
-        const response = await axios.post(
-          `http://127.0.0.1:8000/api${ENDPOINTS.AUTH.REFRESH}/`,
-          { refresh: refreshToken },
-          { withCredentials: true }
-        );
+        const response = await axios.post(`${import.meta.env.VITE_API_URL}${ENDPOINTS.AUTH.REFRESH}/`, { refresh: refreshToken }, { withCredentials: true });
 
         const newAccessToken = response.data.access;
 
         useAuthStore.getState().saveToken({
           access: newAccessToken,
-          refresh: refreshToken, // re-save it (optional)
+          refresh: refreshToken,
         });
 
         // Update headers
-        apiClient.defaults.headers.common[
-          "Authorization"
-        ] = `Bearer ${newAccessToken}`;
+        apiClient.defaults.headers.common["Authorization"] = `Bearer ${newAccessToken}`;
         originalRequest.headers["Authorization"] = `Bearer ${newAccessToken}`;
 
         return apiClient(originalRequest);

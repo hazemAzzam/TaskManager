@@ -13,7 +13,6 @@ class UserModelViewSet(viewsets.ModelViewSet):
     queryset = UserModel.objects.all()
     serializer_class = UserSerializer
     permission_classes=[IsAuthenticated]
-    pagination_class = ModelPagination
 
     @action(detail=False, methods=["get"], url_path="autocomplete")
     def autocomplete(self, request):
@@ -42,5 +41,4 @@ class UserModelViewSet(viewsets.ModelViewSet):
     def current_user(self, request):
         user = request.user
         serializer = self.get_serializer(user)
-        print("user", serializer.data)
         return Response(serializer.data)
