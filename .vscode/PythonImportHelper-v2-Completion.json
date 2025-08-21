@@ -298,6 +298,14 @@
         "documentation": {}
     },
     {
+        "label": "Response",
+        "importPath": "rest_framework.response",
+        "description": "rest_framework.response",
+        "isExtraImport": true,
+        "detail": "rest_framework.response",
+        "documentation": {}
+    },
+    {
         "label": "IsAuthenticated",
         "importPath": "rest_framework.permissions",
         "description": "rest_framework.permissions",
@@ -327,6 +335,15 @@
         "description": "rest_framework.pagination",
         "isExtraImport": true,
         "detail": "rest_framework.pagination",
+        "documentation": {}
+    },
+    {
+        "label": "math",
+        "kind": 6,
+        "isExtraImport": true,
+        "importPath": "math",
+        "description": "math",
+        "detail": "math",
         "documentation": {}
     },
     {
@@ -579,7 +596,7 @@
         "kind": 6,
         "importPath": "Backend.database.views.TaskView",
         "description": "Backend.database.views.TaskView",
-        "peekOfCode": "class TaskModelViewSet(viewsets.ModelViewSet):\n    queryset = TaskModel.objects.all().order_by(\"-dueDate\")\n    serializer_class = TaskModelSerializer\n    pagination_class = ModelPagination\n    # Enable filtering, searching, ordering\n    filter_backends = [DjangoFilterBackend, filters.SearchFilter, filters.OrderingFilter]\n    # Filters\n    filterset_fields = [\"status\", \"priority\", \"assignee\"]\n    search_fields = [\"title\", \"description\"]\n    ordering_fields = [\"dueDate\", \"priority\", \"status\"]",
+        "peekOfCode": "class TaskModelViewSet(viewsets.ModelViewSet):\n    queryset = TaskModel.objects.all().order_by(\"-dueDate\")\n    serializer_class = TaskModelSerializer\n    # Enable filtering, searching, ordering\n    filter_backends = [DjangoFilterBackend, filters.SearchFilter, filters.OrderingFilter]\n    # Filters\n    filterset_fields = [\"status\", \"priority\", \"assignee\"]\n    search_fields = [\"title\", \"description\"]\n    ordering_fields = [\"dueDate\", \"priority\", \"status\"]\n    ordering = [\"-dueDate\"]  # default ordering",
         "detail": "Backend.database.views.TaskView",
         "documentation": {}
     },
@@ -588,7 +605,7 @@
         "kind": 6,
         "importPath": "Backend.database.views.UserView",
         "description": "Backend.database.views.UserView",
-        "peekOfCode": "class UserModelViewSet(viewsets.ModelViewSet):\n    queryset = UserModel.objects.all()\n    serializer_class = UserSerializer\n    permission_classes=[IsAuthenticated]\n    pagination_class = ModelPagination\n    @action(detail=False, methods=[\"get\"], url_path=\"autocomplete\")\n    def autocomplete(self, request):\n        search = request.query_params.get(\"search\", \"\")\n        queryset = self.get_queryset().filter(\n            Q(username__icontains=search) |",
+        "peekOfCode": "class UserModelViewSet(viewsets.ModelViewSet):\n    queryset = UserModel.objects.all()\n    serializer_class = UserSerializer\n    permission_classes=[IsAuthenticated]\n    @action(detail=False, methods=[\"get\"], url_path=\"autocomplete\")\n    def autocomplete(self, request):\n        search = request.query_params.get(\"search\", \"\")\n        queryset = self.get_queryset().filter(\n            Q(username__icontains=search) |\n            Q(full_name__icontains=search) |",
         "detail": "Backend.database.views.UserView",
         "documentation": {}
     },
@@ -624,7 +641,7 @@
         "kind": 6,
         "importPath": "Backend.database.pagination",
         "description": "Backend.database.pagination",
-        "peekOfCode": "class ModelPagination(PageNumberPagination):\n    page_size = 10\n    page_size_query_param = \"page_size\"\n    max_page_size = 100\n    def get_page_size(self, request):\n        page_size = request.query_params.get(self.page_size_query_param)\n        if page_size == 'all':\n            return None  # disables pagination, returns all\n        return super().get_page_size(request)",
+        "peekOfCode": "class ModelPagination(PageNumberPagination):\n    page_size = 10\n    page_size_query_param = \"page_size\"\n    max_page_size = 100\n    def get_page_size(self, request):\n        page_size = request.query_params.get(self.page_size_query_param)\n        if page_size == 'all':\n            return None  # disables pagination\n        return super().get_page_size(request)\n    def get_paginated_response(self, data):",
         "detail": "Backend.database.pagination",
         "documentation": {}
     },
@@ -669,7 +686,7 @@
         "kind": 6,
         "importPath": "Backend.TaskManagerApi.authentication",
         "description": "Backend.TaskManagerApi.authentication",
-        "peekOfCode": "class CookieJWTAuthentication(JWTAuthentication):\n    def authenticate(self, request):\n        raw_token = request.COOKIES.get(\"access\")\n        print(\"raw_token\",raw_token)\n        if raw_token is None:\n            return None\n        validated_token = self.get_validated_token(raw_token)\n        return self.get_user(validated_token), validated_token",
+        "peekOfCode": "class CookieJWTAuthentication(JWTAuthentication):\n    def authenticate(self, request):\n        raw_token = request.COOKIES.get(\"access\")\n        if raw_token is None:\n            return None\n        validated_token = self.get_validated_token(raw_token)\n        return self.get_user(validated_token), validated_token",
         "detail": "Backend.TaskManagerApi.authentication",
         "documentation": {}
     },
@@ -678,7 +695,7 @@
         "kind": 5,
         "importPath": "Backend.TaskManagerApi.settings",
         "description": "Backend.TaskManagerApi.settings",
-        "peekOfCode": "BASE_DIR = Path(__file__).resolve().parent.parent\n# Quick-start development settings - unsuitable for production\n# See https://docs.djangoproject.com/en/5.1/howto/deployment/checklist/\n# SECURITY WARNING: keep the secret key used in production secret!\nSECRET_KEY = 'django-insecure-gudc4!@si@y(pfpl0ytsp_z16d@(zr91xojz+t#$%q6q8vi!%z'\n# SECURITY WARNING: don't run with debug turned on in production!\nDEBUG = True\nALLOWED_HOSTS=[\n    '127.0.0.1',\n]",
+        "peekOfCode": "BASE_DIR = Path(__file__).resolve().parent.parent\n# Quick-start development settings - unsuitable for production\n# See https://docs.djangoproject.com/en/5.1/howto/deployment/checklist/\n# SECURITY WARNING: keep the secret key used in production secret!\nSECRET_KEY = 'django-insecure-gudc4!@si@y(pfpl0ytsp_z16d@(zr91xojz+t#$%q6q8vi!%z'\n# SECURITY WARNING: don't run with debug turned on in production!\nDEBUG = True\nALLOWED_HOSTS=[\n    '127.0.0.1',\n    'localhost',",
         "detail": "Backend.TaskManagerApi.settings",
         "documentation": {}
     },
@@ -687,7 +704,7 @@
         "kind": 5,
         "importPath": "Backend.TaskManagerApi.settings",
         "description": "Backend.TaskManagerApi.settings",
-        "peekOfCode": "SECRET_KEY = 'django-insecure-gudc4!@si@y(pfpl0ytsp_z16d@(zr91xojz+t#$%q6q8vi!%z'\n# SECURITY WARNING: don't run with debug turned on in production!\nDEBUG = True\nALLOWED_HOSTS=[\n    '127.0.0.1',\n]\n# Application definition\nINSTALLED_APPS = [\n    'django.contrib.admin',\n    'django.contrib.auth',",
+        "peekOfCode": "SECRET_KEY = 'django-insecure-gudc4!@si@y(pfpl0ytsp_z16d@(zr91xojz+t#$%q6q8vi!%z'\n# SECURITY WARNING: don't run with debug turned on in production!\nDEBUG = True\nALLOWED_HOSTS=[\n    '127.0.0.1',\n    'localhost',\n]\n# Application definition\nINSTALLED_APPS = [\n    'django.contrib.admin',",
         "detail": "Backend.TaskManagerApi.settings",
         "documentation": {}
     },
@@ -696,7 +713,7 @@
         "kind": 5,
         "importPath": "Backend.TaskManagerApi.settings",
         "description": "Backend.TaskManagerApi.settings",
-        "peekOfCode": "DEBUG = True\nALLOWED_HOSTS=[\n    '127.0.0.1',\n]\n# Application definition\nINSTALLED_APPS = [\n    'django.contrib.admin',\n    'django.contrib.auth',\n    'django.contrib.contenttypes',\n    'django.contrib.sessions',",
+        "peekOfCode": "DEBUG = True\nALLOWED_HOSTS=[\n    '127.0.0.1',\n    'localhost',\n]\n# Application definition\nINSTALLED_APPS = [\n    'django.contrib.admin',\n    'django.contrib.auth',\n    'django.contrib.contenttypes',",
         "detail": "Backend.TaskManagerApi.settings",
         "documentation": {}
     },
@@ -714,7 +731,7 @@
         "kind": 5,
         "importPath": "Backend.TaskManagerApi.settings",
         "description": "Backend.TaskManagerApi.settings",
-        "peekOfCode": "MIDDLEWARE = [\n    \"corsheaders.middleware.CorsMiddleware\",  # must be first\n    \"django.middleware.security.SecurityMiddleware\",\n    \"django.contrib.sessions.middleware.SessionMiddleware\",\n    \"django.middleware.common.CommonMiddleware\",\n    \"django.middleware.csrf.CsrfViewMiddleware\",\n    \"django.contrib.auth.middleware.AuthenticationMiddleware\",\n    \"django.contrib.messages.middleware.MessageMiddleware\",\n    \"django.middleware.clickjacking.XFrameOptionsMiddleware\",\n]",
+        "peekOfCode": "MIDDLEWARE = [\n    \"corsheaders.middleware.CorsMiddleware\",  \n    \"django.middleware.security.SecurityMiddleware\",\n    \"django.contrib.sessions.middleware.SessionMiddleware\",\n    \"django.middleware.common.CommonMiddleware\",\n    \"django.middleware.csrf.CsrfViewMiddleware\",\n    \"django.contrib.auth.middleware.AuthenticationMiddleware\",\n    \"django.contrib.messages.middleware.MessageMiddleware\",\n    \"django.middleware.clickjacking.XFrameOptionsMiddleware\",\n]",
         "detail": "Backend.TaskManagerApi.settings",
         "documentation": {}
     },
@@ -867,7 +884,7 @@
         "kind": 5,
         "importPath": "Backend.TaskManagerApi.settings",
         "description": "Backend.TaskManagerApi.settings",
-        "peekOfCode": "CORS_ALLOWED_ORIGINS = [\n    'http://localhost:5173',\n]\nCORS_ALLOW_CREDENTIALS = True\n# CSRF (if you want to add CSRF protection later)\nCSRF_COOKIE_SECURE = True\nSESSION_COOKIE_SECURE = True",
+        "peekOfCode": "CORS_ALLOWED_ORIGINS = [\n    'http://localhost:5173',\n    'http://127.0.0.1:5173',\n]\nCORS_ALLOW_CREDENTIALS = False\n# CSRF (if you want to add CSRF protection later)\nCSRF_COOKIE_SECURE = False\nSESSION_COOKIE_SECURE = False",
         "detail": "Backend.TaskManagerApi.settings",
         "documentation": {}
     },
@@ -876,7 +893,7 @@
         "kind": 5,
         "importPath": "Backend.TaskManagerApi.settings",
         "description": "Backend.TaskManagerApi.settings",
-        "peekOfCode": "CORS_ALLOW_CREDENTIALS = True\n# CSRF (if you want to add CSRF protection later)\nCSRF_COOKIE_SECURE = True\nSESSION_COOKIE_SECURE = True",
+        "peekOfCode": "CORS_ALLOW_CREDENTIALS = False\n# CSRF (if you want to add CSRF protection later)\nCSRF_COOKIE_SECURE = False\nSESSION_COOKIE_SECURE = False",
         "detail": "Backend.TaskManagerApi.settings",
         "documentation": {}
     },
@@ -885,7 +902,7 @@
         "kind": 5,
         "importPath": "Backend.TaskManagerApi.settings",
         "description": "Backend.TaskManagerApi.settings",
-        "peekOfCode": "CSRF_COOKIE_SECURE = True\nSESSION_COOKIE_SECURE = True",
+        "peekOfCode": "CSRF_COOKIE_SECURE = False\nSESSION_COOKIE_SECURE = False",
         "detail": "Backend.TaskManagerApi.settings",
         "documentation": {}
     },
@@ -894,7 +911,7 @@
         "kind": 5,
         "importPath": "Backend.TaskManagerApi.settings",
         "description": "Backend.TaskManagerApi.settings",
-        "peekOfCode": "SESSION_COOKIE_SECURE = True",
+        "peekOfCode": "SESSION_COOKIE_SECURE = False",
         "detail": "Backend.TaskManagerApi.settings",
         "documentation": {}
     },
